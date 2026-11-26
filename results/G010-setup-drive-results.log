@@ -1,0 +1,41 @@
+﻿=== G010-setup-drive-results started 2026-11-26 01:37:54 on TARIQ_I9 ===
+At F:\code\gemini-helper\jobs-repo\jobs\G010-setup-drive-results\run.ps1:61 char:26
++    '    '                return 2',
++                          ~~~~~~
+Unexpected token 'return' in expression or statement.
+At F:\code\gemini-helper\jobs-repo\jobs\G010-setup-drive-results\run.ps1:62 char:66
++ ...         title_box = page.locator("textarea[aria-label*=\"Form title\" ...
++                                                              ~~~~
+Unexpected token 'Form' in expression or statement.
+At F:\code\gemini-helper\jobs-repo\jobs\G010-setup-drive-results\run.ps1:62 char:66
++ ...             title_box = page.locator("textarea[aria-label*=\"Form tit ...
++                                                                  ~
+Missing closing ')' in expression.
+At F:\code\gemini-helper\jobs-repo\jobs\G010-setup-drive-results\run.ps1:63 char:33
++    '            title_box.click()',
++                                 ~
+An expression was expected after '('.
+At F:\code\gemini-helper\jobs-repo\jobs\G010-setup-drive-results\run.ps1:67 char:59
++ ... a[aria-label*=\"Question\"], input[aria-label*=\"Question\"]").first' ...
++                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Unexpected token 'Question\"], input[aria-label*=\"Question\"]"' in expression or statement.
+At F:\code\gemini-helper\jobs-repo\jobs\G010-setup-drive-results\run.ps1:67 char:59
++    '            q1 = page.locator("textarea[aria-label*=\"Question\"] ...
++                                                           ~
+Missing closing ')' in expression.
+At F:\code\gemini-helper\jobs-repo\jobs\G010-setup-drive-results\run.ps1:67 char:104
++ ... [aria-label*=\"Question\"], input[aria-label*=\"Question\"]").first',
++                                                                 ~
+Unexpected token ')' in expression or statement.
+At F:\code\gemini-helper\jobs-repo\jobs\G010-setup-drive-results\run.ps1:68 char:26
++    '            q1.click()',
++                          ~
+An expression was expected after '('.
+At F:\code\gemini-helper\jobs-repo\jobs\G010-setup-drive-results\run.ps1:134 char:19
++ 'Log "G010 done"',
++                   ~
+Missing expression after ',' in pipeline element.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnexpectedToken
+ 
+=== G010-setup-drive-results exit 1 ===
