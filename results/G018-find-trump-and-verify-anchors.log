@@ -1,0 +1,83 @@
+﻿=== G018-find-trump-and-verify-anchors started 2026-11-26 11:18:54 on TARIQ_I9 ===
+=== VENVS ===
+PY: F:\code\video-studio-test\.venv\Scripts\python.exe
+PY: F:\code\video-studio\app\env\Scripts\python.exe
+=== JOBS_DIR & TRUMP ===
+JOBS_DIR: F:\videos\video_studio\jobs
+=== BEST_FRAMED CALLERS ===
+211: try: start = _best_framed(source, start, duration, dest, total, req, log)
+228: def _best_framed(local, start, duration, dest, total, req, log):
+=== FOOTAGE VERIFY ===
+589: def verify(cfg, c, sheet_path, log, subject=None, ref=None, avoid=None, narration="", guard=None, mainv=None, place="", neutral=False, story=""):
+590:     """-> (ok, reason, seen). Generic slots: hard checks + no visible third-party brand.
+591:     Subject-locked slots: the clip must positively match the subject (brand evidence and the vision model agreeing with a reference photo)."""
+592:     from PIL import Image, ImageStat
+593:     if sum(ImageStat.Stat(Image.open(sheet_path).convert("L")).mean) < 28: return False, "too dark", ""
+594:     if sharpness(sheet_path) < 6: return False, "soft/blurry", ""
+595:     if not subject and not neutral:
+596:         why = title_contradicts(cfg, c.get("desc", ""), narration or c.get("query", ""), (mainv or {}).get("place") or place, story, log)
+597:         if why: return False, f"its title contradicts the story ({why})", c.get("desc", "")
+598:     if cfg.get("vet_provider", "local") == "off":
+599:         return (not subject), ("subject can't be confirmed with vetting off" if subject else ""), c["desc"]
+600:     img = sheet_path
+601:     if subject and ref:
+602:         img = side_by_side(ref, sheet_path, sheet_path.with_name(sheet_path.stem + "_vs.jpg"))
+603:     v2 = cfg.get("clip_check_v2", True) and not subject
+604:     mv = mainv or {}
+605:     if v2:
+606:         prompt = CONTRA.format(main=mv.get("main") or "the thing the narration is about", kind=mv.get("kind") or "thing",
+607:                                narration=(narration or c["query"])[:300].replace('"', "'"))
+608:     else:
+609:         prompt = STRICT.format(subject=subject["name"]) if (subject and ref) else VET.format(query=subject["name"] if subject else c["query"], narration=(narration or c["query"])[:400].replace('"', "'"))
+610:     if avoid and not subject: prompt += AVOID.format(avoid="; or ".join(avoid)[:500])
+611:     try: j = parse_json(_vision(cfg, img, prompt))
+612:     except Exception as e:
+613:         if subject: return False, f"vision check unavailable ({str(e)[:60]}); subject can't be confirmed", c["desc"]
+614:         log(f"  vision check unavailable ({str(e)[:80]}); accepting {c['id']}"); return True, "", c["desc"]
+615:     yes = lambda k, d: str(j.get(k, d)).strip().lower() in ("true", "yes", "1")
+616:     seen = str(j.get("seen") or c["desc"])[:160]
+617:     if v2:
+618:         ok, why = contra_verdict(cfg, j, mv, place, neutral, log, narration=narration or c.get("query", ""), story=story)
+619:         if not ok: return False, why, seen
+620:         story_brands = [b for v in ((guard or {}).get("kinds") or {}).values() for b in v]
+621:         other = [b for b in _brands(j) if not any(_norm_brand(sb) and (_norm_brand(sb) in _norm_brand(b) or _norm_brand(b) in _norm_brand(sb)) for sb in story_brands)]
+622:         if other: return False, f"shows another brand ({', '.join(other)[:60]})", seen
+623:         if avoid and yes("forbidden", False): return False, "shows something the story is about, but not the right one", seen
+624:         ok2, why2 = make_check(cfg, c, sheet_path, guard, narration, log)
+625:         if not ok2: return False, why2, seen
+626:         c["shows"] = str(j.get("main_visible", "")).strip().lower()
+627:         return True, "", seen
+628:     if yes("platform", False): return False, "copyright: screen capture / thumbnail / channel watermark", seen
+629:     if yes("overlay_text", False): return False, "text/logo overlay", seen
+630:     if not yes("same_scene", True): return False, "scene cut", seen
+631:     if not yes("looks_ok", True): return False, "poor footage", seen
+632:     brands = _brands(j); key = _norm_brand((subject or {}).get("brand", ""))
+633:     other = [b for b in brands if not (key and (key in _norm_brand(b) or _norm_brand(b) in key))]
+634:     if other: return False, f"shows another brand ({', '.join(other)[:60]})", seen
+635:     if avoid and not subject and yes("forbidden", False): return False, "shows something the story is about, but not the right one", seen
+636:     if not subject and str(j.get("fits", "yes")).strip().lower() == "no": return False, "doesn't fit what the narration says", seen
+637:     if subject:
+638:         evidence = bool(key) and (any(key in _norm_brand(b) for b in brands) or key in _norm_brand(c.get("desc", "")))
+639:         same = str(j.get("same_subject", j.get("shows", ""))).strip().lower()
+640:         if same == "no": return False, f"not {subject['name']}", seen
+641:         if key and not evidence: return False, f"no visible sign of {subject.get('brand')}", seen
+642:         if not key and same != "yes": return False, f"not confirmed as {subject['name']}", seen
+643:     ok2, why2 = make_check(cfg, c, sheet_path, guard, narration, log)   # a closer look: the story's make, never a lookalike
+644:     if not ok2: return False, why2, seen
+645:     c["shows"] = str(j.get("shows", j.get("same_subject", ""))).strip().lower()
+python.exe : Traceback (most recent call last):
+At F:\code\gemini-helper\jobs-repo\jobs\G018-find-trump-and-verify-anchors\run.ps1:8 char:1
++ & python -c "import sys,json; sys.path.insert(0,r'F:\code\gvideo-stud ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<string>", line 1, in <module>
+  File "C:\Users\Tarri\AppData\Local\Programs\Python\Python312\Lib\pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tarri\AppData\Local\Programs\Python\Python312\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'F:\\videos\\video_studio\\jobs\\_cloudtest\\src\\meta.json'
+=== G018-find-trump-and-verify-anchors exit 0 ===
