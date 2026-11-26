@@ -1,0 +1,9 @@
+﻿=== G029-copy-20261124-and-check-42021-render-api started 2026-11-26 12:35:19 on TARIQ_I9 ===
+COPIED_SRC_FILES=2026-11-24_22-51-56.mp4,meta.json,notes.txt,source_cues.json,source_video.mp4,transcript.txt
+OWN: True
+MATCH: {'kind': 'clip', 'start': 0.0, 'duration': 2.5, 'purpose': 'The source discussing it: So here is an interesting experiment I did. First I went to Grock and asked him to make an image of President Trump. So he showed me these pictures and then he described it. Then I said, how would you', 'auto': True, 'match': 8}
+=== 42021 RENDER ROUTES ===
+=== LOCAL SERVICES ===
+UP http://127.0.0.1:42021/ => 200
+UP http://127.0.0.1:11434/api/tags => 200
+=== G029-copy-20261124-and-check-42021-render-api exit 0 ===
