@@ -1,0 +1,11 @@
+﻿=== G034-trigger-42021-smoke-render started 2026-11-26 12:49:01 on TARIQ_I9 ===
+CREATED_42021_JOB_ID=
+Invoke-RestMethod : The request was aborted: The operation has timed out.
+At F:\code\gemini-helper\jobs-repo\jobs\G034-trigger-42021-smoke-render\run.ps1:11 char:8
++ $res = Invoke-RestMethod -Uri 'http://127.0.0.1:42021/api/jobs' -Meth ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (System.Net.HttpWebRequest:HttpWebRequest) [Invoke-RestMethod], WebExc 
+   eption
+    + FullyQualifiedErrorId : WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeRestMethodCommand
+ 
+=== G034-trigger-42021-smoke-render exit 0 ===
