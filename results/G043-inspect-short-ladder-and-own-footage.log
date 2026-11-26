@@ -1,0 +1,159 @@
+﻿=== G043-inspect-short-ladder-and-own-footage started 2026-11-26 18:53:43 on TARIQ_I9 ===
+=== LADDER FILES ===
+__init__.py
+archive.py
+assemble.py
+beat_editor.py
+blender_paint.py
+blender_studio3d.py
+blender_templates.py
+camera_moves.py
+capcut.py
+captions.py
+charts.py
+clips.py
+cloud_backup.py
+cloudgen.py
+coherence.py
+config.py
+debug.py
+depth.py
+edit.py
+editor_session.py
+explainer.py
+flow.py
+footage.py
+gphotos.py
+gpu_lock.py
+graphics.py
+hy3d_worker.py
+hyperframes.py
+illustrate.py
+imagegen.py
+insert.py
+interview.py
+interview_edit.py
+ladder.py
+liveries.py
+llm.py
+make.py
+marble.py
+media.py
+media_db.py
+mediaroutes.py
+music.py
+music_gen.py
+people.py
+photos.py
+physics.py
+pipeline.py
+place.py
+qa.py
+qc.py
+qc_repair.py
+reframe.py
+render.py
+render_media.py
+republish.py
+review.py
+short.py
+shots.py
+source_visuals.py
+sources.py
+storyboard.py
+storyqc.py
+studio3d.py
+style.py
+talkinghead.py
+threejs_beat.py
+thumb916.py
+transcript.py
+tts.py
+unreal_mrq.py
+wangp.py
+websearch.py
+writer.py
+youtube_main.py
+ytanalysis.py
+=== LADDER REFERENCES (illustration/silhouette/cloudflare/unreal_mrq/own_footage) ===
+beat_editor.py:22: ("imagegen", "AI image services (free: Cloudflare, ChatGPT ...)", False),
+blender_paint.py:6: squarely each surface faces that camera (and only inside the photo's silhouette). Full photo resolution, no baking.
+blender_templates.py:1: """Blender 5.2.3 headless 3D template driver sharing the unreal_mrq.py JSON contract."""
+camera_moves.py:271: (stills/s0_0.jpg for s0_0_px_L0.jpg, imagegen/b0_cloudflare.jpg for b0_px_L0.jpg), accepted only if it matches the layer's
+capcut.py:6: (parallax / illustration / headline), so the Short always renders.
+capcut.py:183: log(f"  CapCut: {'used' if ok else 'not used'} - {why}" + ("" if ok else " (those beats keep their parallax / illustration / headline visuals)"))
+clips.py:15: ladder (stock, photos, illustrations, simulations, cards). Written to src/clips/match.json.
+cloudgen.py:97: """True when the narration names a real person from the story's entity list (cloud is skipped for those beats)."""
+cloud_backup.py:81: try: own = json.loads((jd / "src" / "meta.json").read_text(encoding="utf-8")).get("own_footage")
+config.py:38: # 2026-11-06: Cloudflare Workers AI (FLUX.1-schnell, cheapest, ~5 s) first; Meta (meta.ai, via the media routes) before Gemini.
+config.py:39: "imagegen_providers": ["cloudflare", "hf", "flow", "chatgpt", "bing", "meta", "gemini"],   # flow: 0-credit stills (route r14)
+config.py:40: "cloudflare_account_id": "",
+config.py:41: "cloudflare_api_token": "",       # a permanent Cloudflare API token (Account > Workers AI); kept in the Windows vault
+config.py:168: # -> 6 physics module (SIMULATION) -> 7 CapCut (CAPCUT) -> 8 parallax -> 9 illustration / silhouette -> 10 headline card.
+config.py:202: SECRETS = ("anthropic_api_key", "zai_api_key", "deepseek_api_key", "aisstream_api_key", "hf_token", "cloudflare_api_token",
+debug.py:16: treatment == stock|photo|cloud|still|animate|parallax|illustration|silhouette|3d|card|graphics|simulation|capcut
+debug.py:28: TREAT = ("stock", "photo", "cloud", "still", "animate", "parallax", "illustration", "silhouette", "3d", "card", "graphics", "simulation", "capcut")
+edit.py:228: if item.get("tag"): bg["tag"] = item["tag"]   # ILLUSTRATION / SILHOUETTE
+edit.py:382: "cloud": "Cloud still", "reconstruction": "3D reconstruction", "illustration": "Illustration", "silhouette": "Silhouette"}
+edit.py:383: SITES = {"cloudflare": "Cloudflare", "hf": "Hugging Face", "chatgpt": "ChatGPT", "bing": "Bing", "meta": "Meta", "gemini": "Gemini"}
+edit.py:417: if rung in ("illustration", "silhouette"): return rung.capitalize()
+explainer.py:4: illustration clip's colour range differed.
+explainer.py:88: if v.get("g") and not v.get("edit_clip"):   # illustration / silhouette / card / simulation: drawn live
+explainer.py:162: if v.get("illustration"): bg["tag"] = "ILLUSTRATION" if v["illustration"] == "illustration" else "SILHOUETTE"
+footage.py:176: Would a viewer find the clip a sensible illustration of that narration? Answer "no" if it shows a recognisable place,
+footage.py:351: # The old question ("would a viewer find it a sensible illustration?") threw out good clips and let wrong ones through.
+footage.py:932: if cfg.get("ladder_v2"):   # v2 has no 3D reconstruction (no generic spinning shapes): graphics -> physics -> illustration -> headline
+footage.py:959: log(f"B-roll: {n} of {len(vis)} AI visuals replaced with real footage, " + ("v2 graphics / illustrations" if cfg.get("ladder_v2") else "reconstructions")
+illustrate.py:1: """Flat illustrations and silhouettes for a beat (remotion/src/Illustration.tsx): the ladder rung after the WanGP still and
+illustrate.py:4: illustration: a flat vector scene - sky (aircraft in flight, nose by the narration), airport (landing / on the ground),
+illustrate.py:6: silhouette:   the subject's shape (airliner, fighter jet, people, buildings, car, ship) against a sky gradient, with the
+illustrate.py:116: """Every illustration / silhouette that fits this beat, best first: [{"type": "graphic", "g": ..., "rung", "tag"}].
+illustrate.py:137: g = {"kind": "illustration", "scene": s, "time": tod, "attitude": "landing" if s == "airport" and ph == "landing" else att,
+illustrate.py:146: out.append({"type": "graphic", "g": g, "rung": "illustration", "tag": "ILLUSTRATION"})
+illustrate.py:153: out.append({"type": "graphic", "g": {"kind": "silhouette", "shape": sh, "time": "storm" if tod == "storm" else "dusk",
+illustrate.py:155: "rung": "silhouette", "tag": "SILHOUETTE"})
+illustrate.py:196: if kind == "person" or has_person(vo, ents): return "names a real person"
+imagegen.py:62: PROVIDERS = ("gemini", "chatgpt", "bing", "hf", "cloudflare", "meta", "flow")
+imagegen.py:63: CF_MODEL = "@cf/black-forest-labs/flux-1-schnell"   # Cloudflare Workers AI (REST; account id + API token in settings / vault)
+imagegen.py:78: """'cloudflare: failed (HTTP 400 NSFW); hf: skipped (cooling down)' - for the ladder log and the editor's rung panel."""
+imagegen.py:681: def _session_cloudflare(cfg, sec, aspect, out, timeout, log, evidence, extras=()):
+imagegen.py:682: """Cloudflare Workers AI FLUX.1-schnell over REST (2026-11-06: the cheapest service, ~5 s). No browser, no account login."""
+imagegen.py:684: acct, tok = cfg.get("cloudflare_account_id"), cfg.get("cloudflare_api_token")
+imagegen.py:685: if not (acct and tok): raise Skip("Cloudflare account id / API token not set")
+imagegen.py:687: log(f"  cloudflare: prompt ({len(prompt.split())} words): \"{prompt[:140]}...\"")
+imagegen.py:688: url = f"https://api.cloudflare.com/client/v4/accounts/{acct}/ai/run/{CF_MODEL}"   # square 1024 image; the ladder crops it
+imagegen.py:695: if r.status_code in (401, 403): raise Skip(f"Cloudflare refused the token (HTTP {r.status_code}): renew it in settings")
+imagegen.py:696: if r.status_code == 429: raise Skip("Cloudflare rate limit / daily allowance", -1)
+imagegen.py:697: if r.status_code != 200: raise RuntimeError(f"Cloudflare HTTP {r.status_code}: {r.text[:160]}")
+imagegen.py:702: if not data: raise RuntimeError("Cloudflare returned no image")
+imagegen.py:707: if k == 0: raise RuntimeError(f"Cloudflare image looks wrong ({why})")
+imagegen.py:708: _answered("cloudflare")
+imagegen.py:1036: elif site in ("hf", "bing", "cloudflare", "meta", "flow"):
+imagegen.py:1042: fn = {"hf": _session_hf, "bing": _session_bing, "cloudflare": _session_cloudflare, "meta": _session_meta,
+interview.py:774: Would that photo be a fitting, honest illustration of what the narrator says (same place AND the same kind of subject or era)?
+interview.py:1619: shutil.copyfile(clip, out); return out, "rung " + rung, ""   # (Nov 10: the provider / method kept - "rung ai_image: AI image (cloudflare) -> image-to-video")
+interview_edit.py:263: for x in out:   # owner, Nov 10: "was it Cloudflare? Google Flow? parallax from a snapped frame?" - the provider and method
+ladder.py:110: if s.get("person"): r["cloud"] = None; r["cloud_why"] = "names a real person: cloud skipped"; save(); continue
+ladder.py:137: if s.get("wan") is False:   # illustrations come first; WanGP only for atmospheric filler (see illustrate.wangp_lock)
+liveries.py:1: """Simplified airline liveries for code-drawn aircraft (physics `aircraft_flight` sim, flat illustrations).
+liveries.py:4: no registrations (the video labels the shot as a simulation / illustration anyway). pick() reads the narration (and the beat's
+mediaroutes.py:77: if has_person(str(sec.get("vo") or ""), ents): return "the narration names a real person"
+mediaroutes.py:115: log("  chain: Meta's description names a real person; clip not used"); vid.unlink(missing_ok=True); return None
+mediaroutes.py:126: log("  chain: the description names a real person; skipped"); return None
+people.py:17: SKETCH = ("a hand-drawn illustration in the style of a courtroom sketch artist (charcoal and soft pastel on cream paper, loose quick "
+people.py:67: DRAWN_ASK = ('Is this picture a hand-drawn drawing, sketch or illustration, or is it a photograph (or photo-realistic)? '
+photos.py:86: r"factory|assembly|cutaway|drawing|illustration|painting|game|museum)\b", re.I)
+physics.py:277: # "the market crashed" has no aircraft / vessel and gets no module (it still counts as action: graphics / animated illustration).
+pipeline.py:104: """The owner's own YouTube video: its meta says own_footage (no "Based on" credit, source footage from the first second)."""
+pipeline.py:108: if not m.get("own_footage"):
+pipeline.py:109: m["own_footage"] = True; f.write_text(json.dumps(m, indent=1), encoding="utf-8"); log("  your own video: no source credit, your footage used freely")
+pipeline.py:375: visual ladder again (graphics -> simulation -> illustration -> headline), and caption emoji that weren't picked are picked
+pipeline.py:752: render.do_stills(j.dir, plan, cfg, wg, log, stop); j.save_plan(plan)   # illustrations turn stills into motion clips
+pipeline.py:847: (still, graphics, physics, illustration, headline). Without v2 WanGP is required, as before."""
+pipeline.py:851: if cfg.get("ladder_v2"): log("WanGP is not reachable: these visuals drop to the next rung (graphics / illustration / headline)"); return
+render.py:22: credit = "" if meta.get("own_footage") else f"Based on \"{meta.get('title', '')}\" - {meta.get('channel') or meta.get('uploader') or ''}".strip(" -")
+render.py:181: if cloudgen.has_person(vo, _ents(job)): log(f"  cloud {v['id']}: narration names a real person, cloud skipped"); return False
+render.py:191: def illustration_still(cfg, job, v, vo, log):
+render.py:192: """Long videos, before WanGP: a 16:9 flat illustration / silhouette (illustrate.py, Remotion), rendered as a 6 s animated clip
+render.py:194: to its slot); the ILLUSTRATION / SILHOUETTE label is drawn by Remotion. Beats WanGP must not draw (aircraft,
+=== G043-inspect-short-ladder-and-own-footage exit 0 ===
