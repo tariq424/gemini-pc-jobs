@@ -1,0 +1,22 @@
+﻿=== G025-verify-42021-and-smoke-20261124 started 2026-11-26 11:36:26 on TARIQ_I9 ===
+=== 42021 HEALTH ===
+PORT_42021_LISTEN=True
+HTTP_42021_ROOT=200
+API_42021_JOBS=85
+--- 42021 OUT ---
+Video Studio running on http://127.0.0.1:42021
+ * Serving Flask app 'server'
+ * Debug mode: off
+--- 42021 ERR ---
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:42021
+Press CTRL+C to quit
+127.0.0.1 - - [26/Nov/2026 11:36:27] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [26/Nov/2026 11:36:27] "GET /api/jobs HTTP/1.1" 200 -
+=== COPY-ONLY SMOKE TEST 20261124_232033 ===
+ORIG_EXISTS: False PATH: F:\videos\video_studio\jobs\20261124_232033
+ORIG_CUES: False SRC_VID: False
+OWN_FOOTAGE_DETECTED: False
+UNREAL_FIND: None
+CHECKS: True True True
+=== G025-verify-42021-and-smoke-20261124 exit 0 ===
