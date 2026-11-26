@@ -1,0 +1,9 @@
+﻿=== G033-trigger-42021-smoke-render started 2026-11-26 12:45:55 on TARIQ_I9 ===
+At F:\code\gemini-helper\jobs-repo\jobs\G033-trigger-42021-smoke-render\run.ps1:9 char:25
++    captions      = $true
++                         ~
+The hash literal was incomplete.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : IncompleteHashLiteral
+ 
+=== G033-trigger-42021-smoke-render exit 1 ===
