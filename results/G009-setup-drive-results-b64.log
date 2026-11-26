@@ -1,0 +1,29 @@
+﻿=== G009-setup-drive-results-b64 started 2026-11-26 01:36:17 on TARIQ_I9 ===
+[01:36:18] G009 start
+[01:36:18] Decoded F:\code\gemini-helper\setup_results_form.py
+[01:36:18] Running via claude-run.ps1 ...
+[01:36:19] RUNNER-LOG: F:\code\pc-helper\claude-runner\results\20261126-013618-G009-form-setup.log
+[01:36:19] RUNNER-EXIT: 0
+[01:36:19] === claude-runner ===
+[01:36:19] script: F:\code\pc-helper\claude-runner\inbox\g009_form_setup.ps1
+[01:36:19] stamp: 20261126-013618 timeout_sec: 300 elapsed_sec: 1 exit: 0
+[01:36:19] --- stdout ---
+[01:36:19] 
+[01:36:19] --- stderr ---
+[01:36:19] python.exe : C:\Users\Tarri\AppData\Local\Programs\Python\Python312\python.exe: can't open file 
+[01:36:19] 'F:\\code\\gemini-helper\\setup_results_form.py': [Errno 2] No such file or directory
+[01:36:19] At F:\code\pc-helper\claude-runner\inbox\g009_form_setup.ps1:2 char:1
+[01:36:19] + & python "F:\code\gemini-helper\setup_results_form.py" 2>&1
+[01:36:19] + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[01:36:19]     + CategoryInfo          : NotSpecified: (C:\Users\Tarri\...le or directory:String) [], RemoteException
+[01:36:19]     + FullyQualifiedErrorId : NativeCommandError
+[01:36:19]  
+[01:36:19] G009 done
+Exception calling "FromBase64String" with "1" argument(s): "Invalid length for a Base-64 char array or string."
+At F:\code\gemini-helper\jobs-repo\jobs\G009-setup-drive-results-b64\run.ps1:92 char:1
++ [System.IO.File]::WriteAllBytes($pyPath, [System.Convert]::FromBase64 ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : FormatException
+ 
+=== G009-setup-drive-results-b64 exit 0 ===
