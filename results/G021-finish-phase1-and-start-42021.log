@@ -1,0 +1,24 @@
+﻿=== G021-finish-phase1-and-start-42021 started 2026-11-26 11:26:20 on TARIQ_I9 ===
+[OK] sv own_footage _best_framed bypass
+[OK] server.py gate sweeps to 42020
+PY_COMPILE=0
+[main 4429592] Bypass _best_framed on own_footage and isolate background sweeps to port 42020
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+HEAD=4429592
+=== FIND TRUMP JOB ===
+=== START 42021 ===
+STARTED 42021 PID=26152
+HTTP_42021_ERR=Unable to connect to the remote server
+Traceback (most recent call last):
+  File "F:\code\gvideo-studio\app\server.py", line 4, in <module>
+    from flask import Flask, jsonify, request, send_from_directory, abort
+ModuleNotFoundError: No module named 'flask'
+git.exe : To https://github.com/tariq424/gvideo-studio.git
+At F:\code\gemini-helper\jobs-repo\jobs\G021-finish-phase1-and-start-42021\run.ps1:18 char:4
++    & git -C $g push origin main 2>&1
++    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...ideo-studio.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   c138bbe..4429592  main -> main
+=== G021-finish-phase1-and-start-42021 exit 0 ===
