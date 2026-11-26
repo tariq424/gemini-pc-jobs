@@ -1,0 +1,92 @@
+﻿=== G019-patch-footage-and-probe-42021-safety started 2026-11-26 11:24:04 on TARIQ_I9 ===
+[OK] footage fail-closed
+[OK] footage ban-people
+PY_COMPILE=0
+[main c138bbe] Fail closed on stock vision errors and ban stock footage with people/faces
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+HEAD=c138bbe
+=== SV 190-216 ===
+190:         if (parsed.scheme not in ("https", "http") or parsed.hostname not in
+191:                 ("youtube.com", "www.youtube.com", "m.youtube.com", "music.youtube.com", "youtu.be", "www.youtu.be") or not video_id(url)):
+192:             raise ValueError("no local source_video.mp4 or original YouTube URL")
+193:         # A remote request must correspond to a timestamp actually supplied by captions.
+194:         cues = json.loads((job / "src" / "source_cues.json").read_text(encoding="utf-8"))
+195:         if not any(abs(float(c["start"]) - start) < 0.01 for c in cues):
+196:             raise ValueError("timestamp is not in the verified source cues")
+197:         pad = WIDE if req["kind"] == "clip" else 0.0   # room to move a badly framed excerpt (owner, 2026-11-19)
+198:         w0 = max(0.0, start - pad)
+199:         source = _download_range(url, w0, duration + (start - w0) + pad, dest)
+200:         start = start - w0  # remote media is a bounded range around the cue
+201:     if req["kind"] == "screenshot":
+202:         media.ff("-ss", start, "-i", source, "-frames:v", 1, "-an", dest, timeout=120)
+203:         from PIL import Image
+204:         with Image.open(dest) as image:
+205:             image.verify()
+206:     else:
+207:         media.ff("-ss", start, "-i", source, "-t", duration, "-an", "-vf", "fps=30,scale=960:-2",
+208:                  "-c:v", "libx264", "-crf", 20, "-pix_fmt", "yuv420p", dest, timeout=120)
+209:         total = inspect_video(local)["duration"] if source == local else float(inspect_video(source).get("duration") or 0)
+210:         start0 = start
+211:         try: start = _best_framed(source, start, duration, dest, total, req, log)
+212:         except ValueError:
+213:             if source != local: source.unlink(missing_ok=True)
+214:             raise
+215:         if start != start0: req["start"] = round(req["start"] + start - start0, 2)
+216:         info = inspect_video(dest)
+=== SERVER 735-772 ===
+735: if __name__ == "__main__":
+736:     # fixed address http://127.0.0.1:42020 (PORT overrides); if it's taken, the next free port is used and printed
+737:     want = int(os.environ.get("PORT") or 42020)
+738:     port = want if os.environ.get("WERKZEUG_RUN_MAIN") else free_port(want)   # the reloader's child must reuse the parent's port
+739:     os.environ["PORT"] = str(port)
+740:     if port != want: print(f"Port {want} is busy; using {port} instead", flush=True)
+741:     print(f"Video Studio running on http://127.0.0.1:{port}", flush=True)
+742:     # VS_RELOAD=1: restart automatically when a .py file changes (development only - it also stops a running render;
+743:     # the job is then marked stopped and Resume continues it)
+744:     reload = os.environ.get("VS_RELOAD") == "1"
+745:     if not reload or os.environ.get("WERKZEUG_RUN_MAIN"):   # owner, 2026-11-09: finished videos not yet in Google Photos go up now
+746:         try:
+747:             from studio import cloud_backup
+748:             n = cloud_backup.sweep(config.load()["jobs_dir"])
+749:             if n: print(f"Google Photos backup: {n} finished job(s) queued", flush=True)
+750:         except Exception as e:
+751:             print(f"Google Photos backup sweep skipped: {e}", flush=True)
+752:         try:   # owner, 2026-11-12: every finished video (and its linked Short) is saved Private on the main channel
+753:             from studio import youtube_main
+754:             n = youtube_main.sweep(config.load()["jobs_dir"])
+755:             if n: print(f"Main channel save: {n} finished job(s) queued", flush=True)
+756:         except Exception as e:
+757:             print(f"Main channel save sweep skipped: {e}", flush=True)
+758:         try:   # owner, 2026-11-14: an edited video's Save & replace that hadn't finished goes on
+759:             from studio import republish
+760:             n = republish.sweep(config.load()["jobs_dir"])
+761:             if n: print(f"Replace published: {n} edited job(s) queued", flush=True)
+762:         except Exception as e:
+763:             print(f"Replace published sweep skipped: {e}", flush=True)
+764:         try:   # owner, 2026-11-19: a finished video changed any way (not only the editor's Save) replaces its published copies
+765:             from studio import republish, editor_session
+766:             republish.watch(lambda: config.load()["jobs_dir"],
+767:                             editing=lambda: (editor_session.state(namespace=_editor_ns()) or {}).get("jid"))
+768:         except Exception as e:
+769:             print(f"Replace published watcher not started: {e}", flush=True)
+770:     app.run(host="127.0.0.1", port=port, debug=False, threaded=True, use_reloader=reload)
+=== TRUMP JOBS ===
+HIT: F:\videos\video_studio\jobs\20261016_014643 | {   "id": "8Zt-vkqgD-Y",   "title": "Elon Musk Threatened to Sue Over This Film. They Released it Anyway.",   "channel": "The Lincoln Project",   "uploader": "The Lincoln Project",   "upload_date": "20261013",   "duration": 2886,   "webpage_url": "https://www.
+HIT: F:\videos\video_studio\jobs\20261014_194800 | {   "id": "EKXJrUHudeA",   "title": "Whistleblower Issues Dire Warning: Rogue AI, Hacking Nuclear Programs & Tech Oligarchs\u2019 True Motives",   "channel": "Tucker Carlson",   "uploader": "Tucker Carlson",   "upload_date": "20261012",   "duration": 7443,   "
+git.exe : warning: in the working copy of 'app/studio/footage.py', LF will be replaced by CRLF the next time Git 
+touches it
+At F:\code\gemini-helper\jobs-repo\jobs\G019-patch-footage-and-probe-42021-safety\run.ps1:15 char:4
++    & git -C $g add app/studio/footage.py 2>&1
++    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+git.exe : To https://github.com/tariq424/gvideo-studio.git
+At F:\code\gemini-helper\jobs-repo\jobs\G019-patch-footage-and-probe-42021-safety\run.ps1:17 char:4
++    & git -C $g push origin main 2>&1
++    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...ideo-studio.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   482b2da..c138bbe  main -> main
+=== G019-patch-footage-and-probe-42021-safety exit 0 ===
