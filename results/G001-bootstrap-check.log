@@ -1,0 +1,6 @@
+﻿=== G001-bootstrap-check started 2026-11-25 21:09:27 on TARIQ_I9 ===
+G001-bootstrap-check OK at 2026-11-25 21:09:28
+Host: TARIQ_I9 | User: Tarri | PS: 5.1.26100.10068
+WorkDir exists: True
+video-studio-test exists: True
+=== G001-bootstrap-check exit 0 ===
