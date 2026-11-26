@@ -1,0 +1,29 @@
+﻿=== G022-start-42021-and-list-recent-jobs started 2026-11-26 11:28:42 on TARIQ_I9 ===
+USING_PY=C:\Users\Tarri\AppData\Local\Programs\Python\Python312\python.exe
+STARTED_42021_PID=40204
+HTTP_42021_ERR=Unable to connect to the remote server
+Traceback (most recent call last):
+  File "F:\code\gvideo-studio\app\server.py", line 7, in <module>
+    from studio.pipeline import Studio, STAGES, stages_for
+  File "F:\code\gvideo-studio\app\studio\pipeline.py", line 4, in <module>
+    from . import config, transcript, writer, render, assemble, media, sources, short, debug, gpu_lock
+  File "F:\code\gvideo-studio\app\studio\render.py", line 5, in <module>
+    from . import media, qa, charts
+  File "F:\code\gvideo-studio\app\studio\charts.py", line 3, in <module>
+    import matplotlib; matplotlib.use("Agg")
+    ^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'matplotlib'
+=== RECENT 12 JOBS ===
+20261101_s4_delete_test | 11-01 19:28 |  | mp4=
+20261026_003558 | 10-26 00:39 | The Intelligence Monopoly Is Officially Broken | mp4=
+20261018_021142 | 10-18 02:14 | God\u2019s Eye View Just Got a Massive Upgrade | mp4=
+20261018_003946 | 10-18 00:42 | God\u2019s Eye View Just Got a Massive Upgrade | mp4=
+20261017_165408 | 10-17 23:42 | God\u2019s Eye View Just Got a Massive Upgrade | mp4=
+20261017_140538 | 10-17 14:36 | God\u2019s Eye View Just Got a Massive Upgrade | mp4=
+20261016_190435 | 10-17 01:32 | God\u2019s Eye View Just Got a Massive Upgrade | mp4=
+20261016_171828 | 10-16 17:23 | Physics smoke test 2 | mp4=
+20261016_171253 | 10-16 17:12 |  | mp4=
+20261016_170525 | 10-16 17:12 | Physics smoke test fact sheet | mp4=
+20261016_014643 | 10-16 03:32 | Elon Musk Threatened to Sue Over This Film. They Released it Anyway. | mp4=
+20261014_194800 | 10-15 01:45 | Whistleblower Issues Dire Warning: Rogue AI, Hacking Nuclear Programs & Tech Oli | mp4=
+=== G022-start-42021-and-list-recent-jobs exit 0 ===
