@@ -1,0 +1,26 @@
+﻿=== G042-verify-20261126-and-42021-queue started 2026-11-26 18:25:22 on TARIQ_I9 ===
+=== JOB 20261126_125425 STATUS ===
+STATUS=finished | STAGE=done | ERR=
+LOG: [17:45:57]   Rendered 10/1075, time remaining: 2m 11s
+LOG: [17:46:27]   Rendered 714/1075, time remaining: 15s
+LOG: [17:46:55] Preparing the Short for editing (keyframes on beat boundaries, one time)...
+LOG: [17:47:08]   done in 13s
+LOG: [17:47:08] Short finished: F:\videos\video_studio\jobs\20261126_125425\output\AI_Image_Models_Are_Cheating_Here_s_the_Test_short.mp4 (36s)
+LOG: [17:47:09] Length check: Short 36s vs 30s requested (+19%); within the 180s maximum, OK
+LOG: [17:47:12] Thumbnail ready: F:\videos\video_studio\jobs\20261126_125425\output\thumbnail_9_16.png
+LOG: [17:47:12] Finished.
+LOG: [17:47:13] Backing up to Google Photos in the background (output/gphotos_backup.json, backup.log)
+LOG: [17:47:13] Saving to the main YouTube channel (Private) in the background (output/youtube_main.json, backup.log)
+=== FINAL MP4S ===
+MP4: F:\videos\video_studio\jobs\20261126_125425\output\AI_Image_Models_Are_Cheating_Here_s_the_Test_short.mp4 (16.54 MB)
+MP4: F:\videos\video_studio\jobs\20261126_125425\short\public\media\fb\1774d5315035f7f0.mp4 (7.11 MB)
+MP4: F:\videos\video_studio\jobs\20261126_125425\short\public\media\fb\5abfc6e923a061fe.mp4 (10.65 MB)
+MP4: F:\videos\video_studio\jobs\20261126_125425\short\source_excerpts\1774d5315035f7f0.mp4 (7.11 MB)
+MP4: F:\videos\video_studio\jobs\20261126_125425\short\source_excerpts\5abfc6e923a061fe.mp4 (10.65 MB)
+=== RECENT 42021 QUEUE (TOP 5) ===
+JOB: 20261126_125425 | finished | done | AI Image Models Are Cheating-Here's the Test
+JOB: 20261126_124902 | error | transcript | 
+JOB: 20261124_232033_gsmoke | finished | done | AI is cheating in Image generation
+JOB: 20261026_003558 | error | script | The Intelligence Monopoly Is Officially Broken
+JOB: 20261018_021142 | error | script | God's Eye View Just Got a Massive Upgrade
+=== G042-verify-20261126-and-42021-queue exit 0 ===
