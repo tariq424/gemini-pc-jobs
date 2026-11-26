@@ -1,0 +1,40 @@
+﻿=== G031-check-42021-post-routes-and-bpy started 2026-11-26 12:41:39 on TARIQ_I9 ===
+=== ROUTES ===
+18: @app.post("/api/settings") | def set_settings():
+24: @app.post("/api/test_vision") | def test_vision():
+45: @app.post("/api/test_key") | def test_key():
+66: @app.post("/api/jobs") | def create():
+139: @app.post("/api/style") | def style_add():
+146: @app.post("/api/style/learn") | def style_learn():
+161: @app.post("/api/smoke") | def smoke():
+187: @app.post("/api/jobs/<jid>/review/<bid>") | def review_beat(jid, bid):
+221: @app.post("/api/jobs/<jid>/beat/<bid>/<action>") | def beat_act(jid, bid, action):
+267: @app.post("/api/jobs/<jid>/review_all/<action>") | def review_all(jid, action):
+278: @app.post("/api/jobs/<jid>/preview/<cid>") | def review_preview(jid, cid):
+330: @app.post("/api/jobs/<jid>/edit/target") | def edit_target(jid):
+339: @app.post("/api/jobs/<jid>/edit/open/<bid>") | def edit_open(jid, bid):
+354: @app.post("/api/jobs/<jid>/edit/chat") | def edit_chat(jid):
+372: @app.post("/api/jobs/<jid>/edit/upload") | def edit_upload(jid):
+386: @app.post("/api/jobs/<jid>/edit/<action>/<bid>") | def edit_act(jid, action, bid):
+430: @app.post("/api/jobs/<jid>/edit_all/<action>") | def edit_all(jid, action):
+477: @app.post("/api/jobs/<jid>/thumbnail") | def set_thumb(jid):
+531: @app.post("/api/jobs/<jid>/transcript") | def paste_transcript(jid):
+538: @app.post("/api/jobs/<jid>/pause") | def job_pause(jid):
+552: @app.post("/api/jobs/<jid>/debug") | def set_debug(jid):
+565: @app.post("/api/jobs/<jid>/debug/thumbs") | def debug_thumbs(jid):
+578: @app.post("/api/jobs/<jid>/debug/chat") | def debug_chat(jid):
+586: @app.post("/api/jobs/<jid>/debug/<action>") | def debug_action(jid, action):
+599: @app.post("/api/jobs/<jid>/<action>") | def act(jid, action):
+614: @app.post("/make/parse") | def make_parse():
+646: @app.post("/make/save") | def make_save():
+658: @app.post("/make/runner") | def make_runner():
+670: @app.post("/make/runner/cancel") | def make_runner_cancel():
+697: @app.post("/api/jobs/<jid>/editor/heartbeat") | def editor_heartbeat(jid):
+707: @app.post("/api/jobs/<jid>/editor/close") | def editor_close(jid):
+717: @app.post("/make/edit") | def make_edit():
+=== BPY HEADLESS ===
+
+BPY_OK 5.2.3 LTS
+
+
+=== G031-check-42021-post-routes-and-bpy exit 0 ===
