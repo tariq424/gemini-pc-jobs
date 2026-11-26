@@ -1,0 +1,65 @@
+﻿=== G028-diagnose-cues-and-blender-check started 2026-11-26 12:33:12 on TARIQ_I9 ===
+=== BLENDER ===
+Blender 5.2.3 LTS
+	build date: 2026-10-22
+=== ORIG FILES ===
+chain 1
+fallback 1
+imagegen 1
+public 1
+review 1
+source_excerpts 1
+stock 1
+voice 1
+fallback.json 3476
+icons_b0.json 962
+icons_b1.json 820
+icons_b2.json 773
+icons_b3.json 831
+icons_b4.json 863
+icons_b5.json 898
+=== CUES SAMPLE ===
+TYPE: list LEN: 36
+SAMPLE: [{'start': 0.0, 'end': 9.72, 'text': 'So here is an interesting experiment I did. First I went to Grock and asked him to make'}, {'start': 9.72, 'end': 23.06, 'text': 'an image of President Trump. So he showed me these pictures and then he described it.'}, {'start': 23.06, 'end': 30.79, 'text': 'Then I said, how would you describe that image? And he gave me this description. And'}, {'start': 30.79, 'end': 36.75, 'text': 'so I said create an image from this description. And he thought for each'}, {'start': 36.75, 'end': 47.93, 'text': 'second and he came up with this image. But it was based on the original photo. So'}]
+=== AUTO_REQUEST ===
+141: def auto_request(job, sec, min_overlap=3, secs=2.5):
+142:     """Source Clip rung (visual ladder v2, right after stock): when the script didn't ask for source evidence, pick the
+143:     source caption cue whose words best match this beat's narration -> a 2.5-second clip request, or None.
+144:     Uses only real cue timestamps (never a guessed time); a weak match (< min_overlap shared content words) is skipped."""
+145:     path = Path(job) / "src" / "source_cues.json"
+146:     if not path.exists():
+147:         return None
+148:     try:
+149:         cues = json.loads(path.read_text(encoding="utf-8"))
+150:     except (ValueError, OSError):
+151:         return None
+152:     beat = _words(sec.get("vo", ""))
+153:     if not beat or not isinstance(cues, list):
+154:         return None
+155:     try: own = json.loads((Path(job) / "src" / "meta.json").read_text(encoding="utf-8")).get("own_footage")
+156:     except (OSError, ValueError): own = False
+157:     best, score = None, 0
+158:     for i, c in enumerate(cues):
+159:         try:
+160:             start = float(c["start"])
+161:         except (KeyError, TypeError, ValueError):
+162:             continue
+163:         if start < 15 and not own:   # skip the intro / channel bumper (your own footage has none)
+164:             continue
+165:         window = " ".join(str(x.get("text") or "") for x in cues[i:i + 3])   # a cue plus the next two (~6-9 s of speech)
+166:         sc = len(beat & _words(window))
+167:         if sc > score:
+168:             best, score = (start, window), sc
+169:     if not best or score < min_overlap:
+170:         return None
+171:     start, text = best
+172:     purpose = "The source discussing it: " + " ".join(text.split())[:200]
+173:     return {"kind": "clip", "start": start, "duration": float(secs), "purpose": purpose, "auto": True, "match": score}
+174: 
+175: 
+176: def _extract(job, req, dest, meta, log):
+177:     local = job / "src" / "source_video.mp4"
+178:     start, duration = req["start"], req["duration"]
+179:     if local.is_file():
+180:         info = inspect_video(local)
+=== G028-diagnose-cues-and-blender-check exit 0 ===
