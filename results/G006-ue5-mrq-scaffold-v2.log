@@ -1,0 +1,19 @@
+﻿=== G006-ue5-mrq-scaffold-v2 started 2026-11-25 22:39:16 on TARIQ_I9 ===
+[22:39:17] G006 start
+[22:39:17] --- Disk Space ---
+[22:39:17] Drive C: 69.7 GB free
+[22:39:17] Drive D: 193.2 GB free
+[22:39:17] Drive E: 159.1 GB free
+[22:39:17] Drive F: 593 GB free
+[22:39:17] Drive G: 931.2 GB free
+[22:39:18] Drive J: 141.9 GB free
+[22:39:18] Drive K: 83 GB free
+[22:39:18] Epic Games Launcher found: C:\Program Files\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe
+[22:39:18] Wrote ue_studio scaffold and app/studio/unreal_mrq.py
+[22:39:18] [OK]   source_visuals own_footage min_overlap=2
+[22:39:18] [OK]   youtube_main allow_short_only
+[22:39:18] --- Python compile check ---
+[22:39:18] Sorry: IndentationError: expected an indented block after 'if' statement on line 57 (unreal_mrq.py, line 58)
+[22:39:18] py_compile exit code: 1
+[22:39:18] G006 done
+=== G006-ue5-mrq-scaffold-v2 exit 0 ===
