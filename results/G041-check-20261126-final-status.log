@@ -1,0 +1,20 @@
+﻿=== G041-check-20261126-final-status started 2026-11-26 17:38:07 on TARIQ_I9 ===
+STATUS=running | STAGE=short_render | ERR=
+LOG: [17:36:55]   b1#1: source clip, full frame (video at 88.37s of the source, SOURCE ú Your footage)
+LOG: [17:36:55]   b1#2: stock -> illustration  (stock: no coherent stock; WanGP skipped: an illustration fits)
+LOG: [17:36:55]   b1#3: stock -> illustration  (stock: no coherent stock; WanGP skipped: an illustration fits)
+LOG: [17:36:55]   b1 uses: source, illustration, illustration
+LOG: [17:36:55] == short_review ==
+LOG: [17:36:55] == short_render ==
+LOG: [17:36:55]   narration 36s vs target 30s; natural pace kept
+LOG: [17:36:56]   b0: speaker inset (real source frame) on 2 shot(s)
+LOG: [17:37:03] Media preflight: media/fb/5abfc6e923a061fe.mp4 OK (8422 decoded frames; safe hold 280.667s)
+LOG: [17:37:04] Media preflight: media/fb/1774d5315035f7f0.mp4 OK (5920 decoded frames; safe hold 197.267s)
+LOG: [17:37:04] Short timeline: 35.8s, 3 beats, 6 clips
+LOG: [17:37:04] Installing the Remotion renderer and its parts (one time)...
+MP4: \short\public\media\fb\1774d5315035f7f0.mp4 (7285.4 KB)
+MP4: \short\public\media\fb\5abfc6e923a061fe.mp4 (10902.3 KB)
+MP4: \short\source_excerpts\1774d5315035f7f0.mp4 (7285.4 KB)
+MP4: \short\source_excerpts\5abfc6e923a061fe.mp4 (10902.3 KB)
+COUNTS: source_excerpts=4 stock=5
+=== G041-check-20261126-final-status exit 0 ===
