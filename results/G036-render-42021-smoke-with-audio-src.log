@@ -1,0 +1,7 @@
+﻿=== G036-render-42021-smoke-with-audio-src started 2026-11-26 12:54:25 on TARIQ_I9 ===
+CREATED_42021_JOB_ID=20261126_125425
+STATUS=running | STAGE=transcript | ERROR=
+LOG: [12:56:14] Job created for file 2026-11-24_22-51-56.mp4 (output: SMOKE TEST, short; long auto ~15 min, short 30s)
+LOG: [12:56:14] == transcript ==
+LOG: [12:56:14] Transcribing 2026-11-24_22-51-56.mp4 on this PC...
+=== G036-render-42021-smoke-with-audio-src exit 0 ===
