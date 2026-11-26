@@ -1,0 +1,98 @@
+﻿=== G002-fork-gvideo-studio-and-update-agy started 2026-11-25 21:54:19 on TARIQ_I9 ===
+[21:54:20] G002 start
+[21:54:20] gh found: True
+[21:54:20] Cloning video-studio-test into F:\code\gvideo-studio ...
+[21:54:20] Cloning into 'F:\code\gvideo-studio'...
+[21:54:24] Updating files:  39% (134/336)
+[21:54:24] Updating files:  40% (135/336)
+[21:54:24] Updating files:  41% (138/336)
+[21:54:24] Updating files:  42% (142/336)
+[21:54:25] Updating files:  43% (145/336)
+[21:54:25] Updating files:  44% (148/336)
+[21:54:25] Updating files:  44% (150/336)
+[21:54:25] Updating files:  45% (152/336)
+[21:54:25] Updating files:  46% (155/336)
+[21:54:25] Updating files:  47% (158/336)
+[21:54:25] Updating files:  48% (162/336)
+[21:54:25] Updating files:  49% (165/336)
+[21:54:25] Updating files:  50% (168/336)
+[21:54:25] Updating files:  51% (172/336)
+[21:54:25] Updating files:  52% (175/336)
+[21:54:25] Updating files:  53% (179/336)
+[21:54:25] Updating files:  54% (182/336)
+[21:54:25] Updating files:  55% (185/336)
+[21:54:25] Updating files:  56% (189/336)
+[21:54:25] Updating files:  57% (192/336)
+[21:54:26] Updating files:  58% (195/336)
+[21:54:26] Updating files:  59% (199/336)
+[21:54:26] Updating files:  60% (202/336)
+[21:54:26] Updating files:  60% (203/336)
+[21:54:26] Updating files:  61% (205/336)
+[21:54:26] Updating files:  62% (209/336)
+[21:54:26] Updating files:  63% (212/336)
+[21:54:26] Updating files:  64% (216/336)
+[21:54:26] Updating files:  65% (219/336)
+[21:54:26] Updating files:  66% (222/336)
+[21:54:26] Updating files:  67% (226/336)
+[21:54:26] Updating files:  68% (229/336)
+[21:54:26] Updating files:  69% (232/336)
+[21:54:26] Updating files:  70% (236/336)
+[21:54:26] Updating files:  71% (239/336)
+[21:54:27] Updating files:  72% (242/336)
+[21:54:27] Updating files:  72% (244/336)
+[21:54:27] Updating files:  73% (246/336)
+[21:54:27] Updating files:  74% (249/336)
+[21:54:27] Updating files:  75% (252/336)
+[21:54:27] Updating files:  76% (256/336)
+[21:54:27] Updating files:  77% (259/336)
+[21:54:27] Updating files:  78% (263/336)
+[21:54:27] Updating files:  79% (266/336)
+[21:54:27] Updating files:  80% (269/336)
+[21:54:27] Updating files:  81% (273/336)
+[21:54:27] Updating files:  82% (276/336)
+[21:54:27] Updating files:  83% (279/336)
+[21:54:27] Updating files:  84% (283/336)
+[21:54:27] Updating files:  85% (286/336)
+[21:54:27] Updating files:  86% (289/336)
+[21:54:27] Updating files:  87% (293/336)
+[21:54:27] Updating files:  88% (296/336)
+[21:54:27] Updating files:  89% (300/336)
+[21:54:27] Updating files:  90% (303/336)
+[21:54:27] Updating files:  91% (306/336)
+[21:54:28] Updating files:  92% (310/336)
+[21:54:28] Updating files:  93% (313/336)
+[21:54:28] Updating files:  94% (316/336)
+[21:54:28] Updating files:  95% (320/336)
+[21:54:28] Updating files:  95% (322/336)
+[21:54:28] Updating files:  96% (323/336)
+[21:54:28] Updating files:  97% (326/336)
+[21:54:28] Updating files:  98% (330/336)
+[21:54:28] Updating files:  99% (333/336)
+[21:54:28] Updating files: 100% (336/336)
+[21:54:28] Updating files: 100% (336/336), done.
+[21:54:28] Creating public repo tariq424/gvideo-studio ...
+[21:54:33] https://github.com/tariq424/gvideo-studio
+[21:54:33] Remotes configured:
+[21:54:33] origin	https://github.com/tariq424/gvideo-studio.git (fetch)
+[21:54:33] origin	https://github.com/tariq424/gvideo-studio.git (push)
+[21:54:33] upstream	https://github.com/tariq424/video-studio-test.git (fetch)
+[21:54:33] upstream	https://github.com/tariq424/video-studio-test.git (push)
+[21:54:33] Pushing main to origin (https://github.com/tariq424/gvideo-studio.git) ...
+[21:54:38] To https://github.com/tariq424/gvideo-studio.git
+[21:54:38]  * [new branch]      main -> main
+[21:54:38] branch 'main' set up to track 'origin/main'.
+[21:54:38] git push exit code: 0
+[21:54:38] HEAD commit: 57177f3
+[21:54:38] agy not currently on PATH; checking install
+[21:54:38] Running official Antigravity CLI installer/updater...
+[21:54:45] Antigravity after: C:\Users\Tarri\AppData\Local\agy\bin\agy.exe
+[21:54:45] agy --version (after): 1.5.17
+[21:54:45] --- Tooling Probe ---
+[21:54:45] python : C:\Users\Tarri\AppData\Local\Programs\Python\Python312\python.exe
+[21:54:45] node : C:\Program Files\nodejs\node.exe
+[21:54:45] npm : C:\Program Files\nodejs\npm.ps1
+[21:54:45] blender : not on PATH
+[21:54:45] ffmpeg : C:\Users\Tarri\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin\ffmpeg.exe
+[21:54:45] UE5: not found in standard Epic Games folders
+[21:54:45] G002 done
+=== G002-fork-gvideo-studio-and-update-agy exit 0 ===
