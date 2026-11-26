@@ -1,0 +1,12 @@
+﻿=== G027-smoke-real-assertions started 2026-11-26 11:42:12 on TARIQ_I9 ===
+FOUND_20261124=F:\videos_test\jobs\20261124_232033
+ORIG_META: {'title': 'AI is cheating in Image generation', 'own_footage': True}
+HAS_CUES: True HAS_SRC_VID: True
+OWN_DETECTED: True
+CUE_COUNT: 36
+AUTO_REQ_OWN: None
+TEST_BAN_PEOPLE: False | stock footage with people/faces banned
+TEST_FAIL_CLOSED: False | vision check unavailable (ollama down); failing closed
+TEST_UNREAL_FALLBACK: None
+HTTP_42021=200
+=== G027-smoke-real-assertions exit 0 ===
