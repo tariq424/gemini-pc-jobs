@@ -1,0 +1,18 @@
+﻿=== G035-check-42021-smoke-progress started 2026-11-26 12:52:16 on TARIQ_I9 ===
+JOB: 20261126_124902 | error | transcript | 
+JOB: 20261124_232033_gsmoke | finished | done | AI is cheating in Image generation
+JOB: 20261026_003558 | error | script | The Intelligence Monopoly Is Officially Broken
+TOP_STATUS=error | STAGE=transcript | ERR=tuple index out of range
+LOG:     ^^^^^^^^^^^
+LOG:   File "av/container/input.py", line 168, in demux
+LOG:     streams: list[Stream] = self.streams.get(*args, **kwargs)
+LOG:     ^^^^^^^^^^^
+LOG:   File "av/container/streams.py", line 151, in av.container.streams.StreamContainer.get
+LOG:     selection.extend(self._get_streams(kwargs))
+LOG:     ^^^^^^^^^^^
+LOG:   File "av/container/streams.py", line 118, in _get_streams
+LOG:     yield streams[i]
+LOG:     ^^^^^^^^^^^
+LOG: IndexError: tuple index out of range
+LOG: 
+=== G035-check-42021-smoke-progress exit 0 ===
