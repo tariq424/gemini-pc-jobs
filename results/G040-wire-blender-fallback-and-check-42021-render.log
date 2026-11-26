@@ -1,0 +1,36 @@
+﻿=== G040-wire-blender-fallback-and-check-42021-render started 2026-11-26 17:32:45 on TARIQ_I9 ===
+[OK] wired blender fallback (CRLF)
+PY_COMPILE=0
+[main 8266a59] Wire Blender 5.2.3 templates as automatic fallback in unreal_mrq.py
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+HEAD=8266a59
+=== 42021 JOB 20261126_125425 ===
+STATUS=running | STAGE=short_fallback | ERR=
+LOG: [17:30:26]   WanGP: ready after 30s
+LOG: [17:31:49] Narration b0: 16.4s
+LOG: [17:31:50] Narration b1: 15.6s
+LOG: [17:31:50] Narration b2: 0.9s
+LOG: [17:31:50] Short narration: 36s in total
+LOG: [17:31:50]   voice pace: kokoro/am_puck read at 148 wpm; next Shorts are sized at 148 wpm
+LOG: [17:31:50]   WanGP: stopped (batch finished); models unloaded, VRAM freed
+LOG: [17:31:50] == short_fallback ==
+LOG: [17:31:57] Visual ladder per beat (1 stock/photo -> 2 cloud still -> 3 WanGP still -> 4 parallax -> 5 illustration / silhouette -> 6 reconstruction / headline; animate on click):
+LOG: [17:31:57]   b0: source clip rung: cue at 5.0s matches the narration (4 shared words)
+COUNTS: source_excerpts=0 stock=5
+git.exe : warning: in the working copy of 'app/studio/unreal_mrq.py', LF will be replaced by CRLF the next time Git 
+touches it
+At F:\code\gemini-helper\jobs-repo\jobs\G040-wire-blender-fallback-and-check-42021-render\run.ps1:16 char:5
++     & git -C $g add app/studio/unreal_mrq.py 2>&1
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+git.exe : To https://github.com/tariq424/gvideo-studio.git
+At F:\code\gemini-helper\jobs-repo\jobs\G040-wire-blender-fallback-and-check-42021-render\run.ps1:18 char:5
++     & git -C $g push origin main 2>&1
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...ideo-studio.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   eb2b120..8266a59  main -> main
+=== G040-wire-blender-fallback-and-check-42021-render exit 0 ===
