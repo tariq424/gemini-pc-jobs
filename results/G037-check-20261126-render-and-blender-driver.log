@@ -1,0 +1,22 @@
+﻿=== G037-check-20261126-render-and-blender-driver started 2026-11-26 17:24:59 on TARIQ_I9 ===
+=== 42021 SMOKE RENDER 20261126_125425 ===
+STATUS=error | STAGE=short_stock | ERR=narration failed: [{"message": "[Errno 2] No such file or directory: 'F:\\\\code\\\\gvideo-studio\\\\assets\\\\voice_ref_baritone.wav'", "task_index": 1, "task_id": 1, "stage": "generation", "cancelled": false}]
+LOG:          ^^^^^^^^^^^^^^
+LOG:   File "F:\code\gvideo-studio\app\studio\pipeline.py", line 554, in _run
+LOG:     else: self._stages(j, s, cfg, wg, log, stop, dbg, jid)
+LOG:           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+LOG:   File "F:\code\gvideo-studio\app\studio\pipeline.py", line 674, in _stages
+LOG:     try: short.do_voice(j.dir, sp, cfg, wg, log, stop)
+LOG:          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+LOG:   File "F:\code\gvideo-studio\app\studio\short.py", line 998, in do_voice
+LOG:     return _do_voice_inner(job, plan, cfg, wg, log, stop)
+LOG:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+LOG:   File "F:\code\gvideo-studio\app\studio\short.py", line 1030, in _do_voice_inner
+LOG:     if not r["ok"]: raise RuntimeError(f"narration failed: {r['err']}")
+LOG:                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+LOG: RuntimeError: narration failed: [{"message": "[Errno 2] No such file or directory: 'F:\\\\code\\\\gvideo-studio\\\\assets\\\\voice_ref_baritone.wav'", "task_index": 1, "task_id": 1, "stage": "generation", "cancelled": false}]
+LOG: 
+COUNTS: source_excerpts=0 stock=5
+=== WRITE BLENDER DRIVER ===
+DRIVER_PY_COMPILE=0
+=== G037-check-20261126-render-and-blender-driver exit 0 ===
