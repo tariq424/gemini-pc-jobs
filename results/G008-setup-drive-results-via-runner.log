@@ -1,0 +1,43 @@
+﻿=== G008-setup-drive-results-via-runner started 2026-11-26 01:11:16 on TARIQ_I9 ===
+At F:\code\gemini-helper\jobs-repo\jobs\G008-setup-drive-results-via-runner\run.ps1:107 char:82
++ ... ttps://docs\\.google\\.com/forms/d/e/[^"'\\s]+/formResponse", html)',
++                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Unexpected token '\\s]+/formResponse", html)',
+   '            entries = re.findall(r"entry\\.' in expression or statement.
+At F:\code\gemini-helper\jobs-repo\jobs\G008-setup-drive-results-via-runner\run.ps1:110 char:26
++    '            print(f"[VIEW] {vurl}")',
++                          ~
+Array index expression is missing or not valid.
+At F:\code\gemini-helper\jobs-repo\jobs\G008-setup-drive-results-via-runner\run.ps1:111 char:26
++    '            print(f"[ACTION] {m_action.group(0) if m_action else  ...
++                          ~
+Array index expression is missing or not valid.
+At F:\code\gemini-helper\jobs-repo\jobs\G008-setup-drive-results-via-runner\run.ps1:111 char:78
++ ... ] {m_action.group(0) if m_action else None} | [ENTRIES] {entries}")',
++                                                   ~~~~~~~~~~~~~~~~~~~
+Expressions are only allowed as the first element of a pipeline.
+At F:\code\gemini-helper\jobs-repo\jobs\G008-setup-drive-results-via-runner\run.ps1:111 char:97
++ ... ] {m_action.group(0) if m_action else None} | [ENTRIES] {entries}")',
++                                                                      ~~~~
+Unexpected token '")',
+   '            if not m_action or len(entries) < 2:',
+   '                print("' in expression or statement.
+At F:\code\gemini-helper\jobs-repo\jobs\G008-setup-drive-results-via-runner\run.ps1:113 char:29
++    '                print("[ERR] Could not extract formResponse or 2  ...
++                             ~
+Array index expression is missing or not valid.
+At F:\code\gemini-helper\jobs-repo\jobs\G008-setup-drive-results-via-runner\run.ps1:113 char:29
++    '                print("[ERR] Could not extract formResponse or 2  ...
++                             ~~~~
+Unexpected token 'ERR]' in expression or statement.
+At F:\code\gemini-helper\jobs-repo\jobs\G008-setup-drive-results-via-runner\run.ps1:142 char:15
++ Log "G008 done"
++               ~
+The string is missing the terminator: ".
+At F:\code\gemini-helper\jobs-repo\jobs\G008-setup-drive-results-via-runner\run.ps1:144 char:2
++ 
+Missing closing ')' in subexpression.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnexpectedToken
+ 
+=== G008-setup-drive-results-via-runner exit 1 ===
