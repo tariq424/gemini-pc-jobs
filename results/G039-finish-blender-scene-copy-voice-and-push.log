@@ -1,0 +1,21 @@
+﻿=== G039-finish-blender-scene-copy-voice-and-push started 2026-11-26 17:29:44 on TARIQ_I9 ===
+COPIED_VOICE=F:\code\video-studio\assets\voice_ref_baritone.wav
+JOB_STATUS_BEFORE=error | STAGE=short_stock
+RESUMED_20261126_125425
+PY_COMPILE=0
+blender_templates: rendered smoke_blender_T_DataWall.mp4 (24 frames)
+BLENDER_MP4: F:\code\gvideo-studio\smoke_blender_T_DataWall.mp4 96892
+[main eb2b120] Add Phase 2 Blender 5.2.3 3D templates (T_DataWall, T_ComparisonLadder, T_ProofScreen)
+ 2 files changed, 100 insertions(+)
+ create mode 100644 app/studio/blender_templates.py
+ create mode 100644 blender_studio/render_template.py
+HEAD=eb2b120
+git.exe : To https://github.com/tariq424/gvideo-studio.git
+At F:\code\gemini-helper\jobs-repo\jobs\G039-finish-blender-scene-copy-voice-and-push\run.ps1:68 char:1
++ & git -C $g push origin main 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...ideo-studio.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   4429592..eb2b120  main -> main
+=== G039-finish-blender-scene-copy-voice-and-push exit 0 ===
