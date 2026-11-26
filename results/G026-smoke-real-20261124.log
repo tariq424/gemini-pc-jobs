@@ -1,0 +1,7 @@
+﻿=== G026-smoke-real-20261124 started 2026-11-26 11:39:06 on TARIQ_I9 ===
+REAL_ORIG: F:\videos\video_studio_test\jobs\20261124_232033 EXISTS: False
+TEST_BAN_PEOPLE: False soft/blurry
+TEST_FAIL_CLOSED: False soft/blurry
+TEST_UNREAL_FALLBACK: None
+HTTP_42021=200
+=== G026-smoke-real-20261124 exit 0 ===
