@@ -1,0 +1,79 @@
+﻿=== G016-inspect-anchors-and-jobs started 2026-11-26 11:14:08 on TARIQ_I9 ===
+=== START FILES ===
+start-video-studio.bat
+start-visual-beat.ps1
+@echo off
+rem Start Video Studio without Pinokio:  start-video-studio.bat          (normal)
+rem                                      start-video-studio.bat reload   (restart automatically when code changes - stops a running render)
+rem Then open http://127.0.0.1:42020   (WanGP and Ollama still have to be running for narration, stills and clip checks)
+setlocal
+cd /d F:\code\video-studio\app
+rem Pinokio's bundled Node.js / ffmpeg live in its conda folder; add them so Remotion (npx) works outside Pinokio
+set "PATH=C:\pinokio\bin\miniconda;C:\pinokio\bin\miniconda\Scripts;C:\pinokio\bin\miniconda\Library\bin;%PATH%"
+call env\Scripts\activate.bat
+set PORT=42020
+set PYTHONUNBUFFERED=1
+if /i "%~1"=="reload" (set VS_RELOAD=1) else (set VS_RELOAD=)
+where npx >nul 2>nul || echo WARNING: Node.js (npx) not found on PATH - Shorts can't render. Start Video Studio from Pinokio, or install Node.js.
+start "" http://127.0.0.1:42020
+python server.py
+endlocal
+=== JOB DIRS ===
+.claude
+.pytest_cache
+.ruff_cache
+.venv
+app
+backups
+hyperframes
+media-poc
+models
+pinokio
+prompts
+qc_smoke_results
+remotion
+scripts
+tests
+_to_delete
+server.py:10 VS_PORT = int(os.environ.get("PORT") or 42020)   # the launcher sets PORT; unset = live (42020) as before
+server.py:318 return None if VS_PORT == 42020 else str(VS_PORT)
+server.py:736 # fixed address http://127.0.0.1:42020 (PORT overrides); if it's taken, the next free port is used and printed
+server.py:737 want = int(os.environ.get("PORT") or 42020)
+server.py:748 n = cloud_backup.sweep(config.load()["jobs_dir"])
+server.py:754 n = youtube_main.sweep(config.load()["jobs_dir"])
+server.py:760 n = republish.sweep(config.load()["jobs_dir"])
+server.py:766 republish.watch(lambda: config.load()["jobs_dir"],
+vs_runner.py:3 python vs_runner.py --job <run>/spec.json --out <run> [--url http://127.0.0.1:42020]
+vs_runner.py:118 ap.add_argument("--url", default="http://127.0.0.1:42020"); a = ap.parse_args()
+_prompt_test.py:11 job = Path(cfg["jobs_dir"]) / "20261008_210038"
+cloud_backup.py:235 def sweep(jobs_dir):
+=== SOURCE_VISUALS ===
+228: def _best_framed(local, start, duration, dest, total, req, log):
+  """owner, 2026-11-19: an excerpt with no whole face in most frames (a camera mid-move: hands and black, a body with the
+  face cut off) is moved to the nearest well-framed moment within 10 s. When none is framed but nearby footage does show
+  faces, the excerpt is refused (the ladder goes on). Footage with no faces anywhere (slides, a demo) is kept as it is.
+  -> the start used."""
+251: if 0 < sc < reframe.FRAMED_MIN:   # faces nearby, none framed
+  raise ValueError(f"no well-framed moment near {start:.1f}s (best {sc:.0%} of frames show a whole face)")
+  if s2 != start:
+  log(f"  source excerpt moved {s2 - start:+.0f}s to a well-framed moment (whole face in {sc:.0%} of frames, was {score:.0%})")
+  return s2
+258: def own(job):
+  """The source is the owner's own footage (an uploaded video of his, or 'This is my own video'): no copyright caps."""
+  try: return bool(json.loads((Path(job) / "src" / "meta.json").read_text(encoding="utf-8")).get("own_footage"))
+  except (OSError, ValueError): return False
+  
+=== FOOTAGE ===
+322: if not guard or not (guard.get("kinds") or guard.get("side")) or not cfg.get("story_subject_guard", True): return True, ""
+325: if not all(f.exists() for f in fr): return True, ""
+335: except Exception as e: return False, f"make check unavailable ({str(e)[:50]}); not risking a wrong {kind}"
+342: return False, (f"shows a {make} {kind}; the story is about {', '.join(brands)}" if make.lower() not in ("unknown", "none", "")
+346: return False, f"{'right' if ds == 'right' else 'left'}-hand-drive interior; the story's country drives with the wheel on the {side}"
+347: return True, ""
+438: if _none(seen): return True
+439: if not story_place and not story: return True
+440: if not re.search(r"\b[A-Z][A-Za-z]", seen): return True   # "suburban neighborhood", "a city": not a place anyone can name ("US flag" is)
+442: if a & b: return True
+475: if _none(kind) or _none(shown): return False
+484: if _none(kind) or _none(shown): return False
+=== G016-inspect-anchors-and-jobs exit 0 ===
