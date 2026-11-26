@@ -1,0 +1,47 @@
+﻿=== G030-phase2-blender-templates-and-post-g029 started 2026-11-26 12:39:35 on TARIQ_I9 ===
+At F:\code\gemini-helper\jobs-repo\jobs\G030-phase2-blender-templates-and-post-g029\run.ps1:128 char:13
++    '        params = dict(spec); params["output_dir"] = str(fdir)',
++             ~~~~~~
+Unexpected token 'params' in expression or statement.
+At F:\code\gemini-helper\jobs-repo\jobs\G030-phase2-blender-templates-and-post-g029\run.ps1:129 char:82
++ ... ath(tmp) / "params.json"; pfile.write_text(json.dumps(params, indent= ...
++                                                                 ~
+Missing argument in parameter list.
+At F:\code\gemini-helper\jobs-repo\jobs\G030-phase2-blender-templates-and-post-g029\run.ps1:130 char:35
++    '        env = os.environ.copy(); env["GVS_BLENDER_PARAMS"] = str( ...
++                                   ~
+An expression was expected after '('.
+At F:\code\gemini-helper\jobs-repo\jobs\G030-phase2-blender-templates-and-post-g029\run.ps1:131 char:43
++    '        proc = subprocess.run([str(bl), "--background", "--python ...
++                                           ~
+Missing ] at end of attribute or type literal.
+At F:\code\gemini-helper\jobs-repo\jobs\G030-phase2-blender-templates-and-post-g029\run.ps1:131 char:72
++ ...   proc = subprocess.run([str(bl), "--background", "--python", str(REN ...
++                                                                  ~
+Missing expression after ','.
+At F:\code\gemini-helper\jobs-repo\jobs\G030-phase2-blender-templates-and-post-g029\run.ps1:131 char:73
++ ... oc = subprocess.run([str(bl), "--background", "--python", str(RENDER_ ...
++                                                               ~~~
+Unexpected token 'str' in expression or statement.
+At F:\code\gemini-helper\jobs-repo\jobs\G030-phase2-blender-templates-and-post-g029\run.ps1:131 char:72
++ ...   proc = subprocess.run([str(bl), "--background", "--python", str(REN ...
++                                                                  ~
+Missing closing ')' in expression.
+At F:\code\gemini-helper\jobs-repo\jobs\G030-phase2-blender-templates-and-post-g029\run.ps1:131 char:153
++ ... RIPT)], env=env, capture_output=True, text=True, timeout=timeout_s)',
++                                                                        ~~
+Unexpected token '',
+   '' in expression or statement.
+At F:\code\gemini-helper\jobs-repo\jobs\G030-phase2-blender-templates-and-post-g029\run.ps1:132 char:13
++    '        pngs = sorted(fdir.glob("frame_*.png"))',
++             ~~~~
+Unexpected token 'pngs' in expression or statement.
+At F:\code\gemini-helper\jobs-repo\jobs\G030-phase2-blender-templates-and-post-g029\run.ps1:136 char:34
++    '        ff = subprocess.run(["ffmpeg", "-y", "-framerate", str(fp ...
++                                  ~
+Missing type name after '['.
+Not all parse errors were reported.  Correct the reported errors and try again.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnexpectedToken
+ 
+=== G030-phase2-blender-templates-and-post-g029 exit 1 ===
