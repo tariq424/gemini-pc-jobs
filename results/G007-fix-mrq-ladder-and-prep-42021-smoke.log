@@ -1,0 +1,29 @@
+﻿=== G007-fix-mrq-ladder-and-prep-42021-smoke started 2026-11-25 23:06:52 on TARIQ_I9 ===
+[23:06:52] G007 start
+[23:06:52] [OK] short.py: bypass skip_faceless_source on own_footage
+[23:06:53] --- Python compile check ---
+[23:06:53] py_compile exit code: 0
+[23:06:53] git status:  M app/studio/short.py
+[23:06:54] git status:  M app/studio/source_visuals.py
+[23:06:54] git status:  M app/studio/youtube_main.py
+[23:06:54] git status: ?? app/studio/unreal_mrq.py
+[23:06:54] git status: ?? ue_studio/
+[23:06:55] [main 482b2da] Fix unreal_mrq.py + bypass faceless rejection on own_footage + own_footage/short-only fixes
+[23:06:55]  7 files changed, 169 insertions(+), 3 deletions(-)
+[23:06:55]  create mode 100644 app/studio/unreal_mrq.py
+[23:06:55]  create mode 100644 ue_studio/GVideoStudio.uproject
+[23:06:55]  create mode 100644 ue_studio/Scripts/build_templates.py
+[23:06:55]  create mode 100644 ue_studio/Scripts/mrq_render.py
+[23:06:57] To https://github.com/tariq424/gvideo-studio.git
+[23:06:57]    57177f3..482b2da  main -> main
+[23:06:58] git push exit code: 0
+[23:06:58] New HEAD: 482b2da
+[23:06:58] --- Port Status ---
+[23:06:59] Port 42020 : LISTENING (PID 34480)
+[23:06:59] Port 42021 : free
+[23:06:59] Port 42030 : LISTENING (PID 62068)
+[23:07:00] Port 42031 : free
+[23:07:00] Port 42040 : LISTENING (PID 63804)
+[23:07:00] Port 42041 : free
+[23:07:00] G007 done
+=== G007-fix-mrq-ladder-and-prep-42021-smoke exit 0 ===
