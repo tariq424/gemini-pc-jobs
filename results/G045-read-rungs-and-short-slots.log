@@ -1,0 +1,132 @@
+﻿=== G045-read-rungs-and-short-slots started 2026-11-26 19:32:11 on TARIQ_I9 ===
+=== QC_REPAIR RUNGS ===
+RUNGS = [("stock", _rung_stock), ("meta_chain", _rung_metachain), ("ai_image", _rung_aiimage), ("chatgpt_chain", _rung_chatgpt),
+         ("blender", _rung_blender), ("video", _rung_video), ("cloud", _rung_cloud), ("marble", _rung_marble),
+         ("local_i2v_own_frame", _rung_ownframe), ("wangp", _rung_wangp), ("static_image", _rung_static),
+         ("studio3d", _rung_studio3d), ("physics", _rung_physics), ("motion", _rung_motion), ("hyperframes", _rung_hyperframes), ("threejs", _rung_threejs), ("card", _rung_card)]   # threejs: 2026-11-21   # 3D studio, then drawings (physics, motion, HyperFrames), then the card (owner, 2026-11-12/13/18)
+
+
+# ------------------------------------------------------------------ splice
+def fit(clip, L, W, H, fps, out):
+    """The replacement cut or held to exactly L seconds at the video's size and rate: a clip shorter than its span holds its
+    last frame for the remainder (the static image under the narration)."""
+    media.ff("-i", clip, "-an", "-vf", f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},setsar=1,fps={fps:.3f},"
+             f"tpad=stop_mode=clone:stop_duration={L:.3f},format=yuv420p",   # (no trim / setpts before tpad: ffmpeg 7.0 then does not pad)
+             "-t", f"{L:.3f}", "-c:v", "libx264", "-preset", "veryfast", "-crf", "16", out, timeout=600)
+    return Path(out)
+
+
+def splice(mp4, reps, W, H, fps, out):
+    """Overlay each replacement (already fitted to its span) over its span; the original audio is copied untouched."""
+    ins, flt, chain = ["-i", str(mp4)], [], "[0:v]"
+    for k, (a, b, clip) in enumerate(reps, 1):
+        ins += ["-i", str(clip)]
+        flt.append(f"[{k}:v]setpts=PTS-STARTPTS+{a:.3f}/TB[r{k}]")
+        flt.append(f"{chain}[r{k}]overlay=enable='between(t,{a:.3f},{b:.3f})':eof_action=pass[o{k}]"); chain = f"[o{k}]"
+    media.ff(*ins, "-filter_complex", ";".join(flt), "-map", chain, "-map", "0:a?", "-c:v", "libx264", "-preset", "veryfast",
+             "-crf", "18", "-pix_fmt", "yuv420p", "-c:a", "copy", "-movflags", "+faststart", out, timeout=3600)
+    return Path(out)
+
+
+AI_RUNGS = {"ai_image", "chatgpt_chain", "marble"}
+
+
+def mark_timeline(job_dir, vert, a, b, rung, how):
+    """A repaired span is spliced into the finished video after the render, so the timeline (teaser.json) is told what now
+    plays there: the scrubber's "Made by" and the Publisher's YouTube "Altered content" answer read it (Nov 7: repaired spans
+    showed generated people with no GENERATED tag). -> number of background shots marked."""
+    tl = Path(job_dir) / ("short" if vert else "build") / "public" / "teaser.json"
+    try: data = json.loads(tl.read_text(encoding="utf-8"))
+=== SHORT.PY LADDER & OWN_FOOTAGE ===
+283: from . import source_visuals
+284: prompt += source_visuals.prompt(srcdir)
+457: if rem > 0.5:   # never fill with another beat's footage: it illustrates a different sentence
+480: from . import depth, coherence, photos, ladder, cloudgen, illustrate, physics
+498: if v2 and cfg.get("source_clips_auto", True) and cfg.get("source_visuals", True) and cfg.get("source_over_stock", True):
+502: from . import source_visuals
+506: mine = source_visuals.own(job)   # his own footage beats generic stock on even a weak match (owner, 2026-11-20)
+507: r = source_visuals.auto_request(job, x, min_overlap=2 if mine else int(cfg.get("source_over_stock_min", 4)))
+509: cap = len(cand) if source_visuals.own(job) else max(0, min(2, int(cfg.get("source_visual_max_uses", 2))))
+536: else: log("Visual ladder per beat (1 stock/photo -> 2 cloud still -> 3 WanGP still -> 4 parallax -> 5 illustration / silhouette -> 6 reconstruction / headline; animate on click):")
+549: from . import source_visuals
+550: raw_source = _safe(log, f"{s['id']} source clip", lambda: source_visuals.make(cfg, job, sd, s, log))
+551: if raw_source and raw_source.get("type") == "video" and (cfg.get("skip_faceless_source", True) and not source_visuals.own(job)):
+596: snap = _safe(log, f"{s['id']} source screenshot", lambda: source_visuals.snapshot(cfg, job, sd, s, log, source_item=raw_source))
+607: snap = snap or _safe(log, f"{s['id']} source screenshot", lambda: source_visuals.snapshot(cfg, job, sd, s, log, source_item=raw_source))
+666: # ladder order: illustrations / silhouettes come before WanGP. WanGP only draws atmospheric filler that no illustration
+668: locked = illustrate.wangp_lock(s, ents, phases.get(s["id"]))
+669: opts = illustrate.options(s, ents, phases.get(s["id"]))
+679: "person": cloudgen.has_person(s["vo"], ents), "wan": not wan_why, "wan_why": wan_why})
+750: if it.get("rung") in ("illustration", "silhouette"): kill += 1
+754: ill = illustrate.pick(s, ents, phases.get(s["id"], ""), k5 + kill, pos=(len(items), needs[s["id"]]))
+755: if ill:   # a flat illustration / silhouette looks like a design choice; claymation only when nothing fits
+844: out = _safe(log, "AI stills (cloud / WanGP)", lambda: ladder.run(cfg, wg, sd, fd, slots, log, stop, gpu, **kw))
+1157: borrow = []   # no borrowing: another beat's clip illustrates a different sentence; short_fallback fills the gap instead
+1213: if c.get("tag"): bg["tag"] = c["tag"]   # ILLUSTRATION / SILHOUETTE
+=== LADDER.PY TAIL (150-210) ===
+                elif UNREACHABLE in str(g.get("err")):
+                    why = "WanGP not reachable: skipped"; log("  WanGP is not reachable: skipping WanGP for the remaining slots")
+            except Exception as e: log(f"  still {s['key']} failed ({str(e)[:100]})")
+        r["still"] = _rel(img, sd) if img.exists() else None
+        if r["still"] is not None: r["src"] = "wangp"
+        if r["still"] is None: r["still_why"] = why
+        save()
+    check_all()
+    # step 3: image-to-video of the stills that passed
+    # animation (step 3) only on an explicit click (Show all options / Add animation -> animate=True); never in the
+    # pipeline, Review every beat, Approve auto or Approve all remaining
+    if animate and cfg.get("short_i2v", True):
+        for i, s in enumerate(slots):
+            if stop(): raise RuntimeError("cancelled")
+            r = st[s["key"]]; mp = fd / f"{s['key']}_i2v.mp4"
+            if not (r.get("still_ok") or (full and r.get("still"))) or "clip" in r and (r["clip"] is None or mp.exists()): continue
+            if not media.ok(mp):
+                try:
+                    g = wg.gen({"model_type": cfg.get("short_i2v_model") or cfg["video_model"], "prompt": (s.get("motion") or s["still_prompt"]) + render.STYLE,
+                                "image_prompt_type": "S", "image_start": str((sd / r["still"]).resolve()), "resolution": space(sd)["i2v_res"],
+                                "video_length": int(cfg.get("short_i2v_frames", 169)), "num_inference_steps": int(cfg.get("short_i2v_steps", 8)), "seed": seed + 400 + i},
+                               log, f"animate {s['key']}", stop=stop)
+                    if g["ok"]: shutil.copy(g["file"], mp)
+                except Exception as e: log(f"  animation {s['key']} failed ({str(e)[:100]})")
+            r["clip"] = _rel(mp, sd) if media.ok(mp) else None
+            if r["clip"] is None: r["clip_why"] = "WanGP image-to-video failed"
+            else: r["clip_secs"] = round(media.dur(mp), 2)
+            save()
+        todo = [s for s in slots if st[s["key"]].get("clip") and "clip_ok" not in st[s["key"]]]
+        if todo:
+            try: footage.ensure_vet_model(cfg, log)
+            except Exception as e: log(f"  {str(e)[:160]}")
+            for s in todo:
+                r = st[s["key"]]; strip = fd / f"{s['key']}_i2v_strip.jpg"
+                info = {}
+                try: media.frames_strip(sd / r["clip"], strip); ok, why = check(cfg, strip, s["vo"], s.get("subject"), video=True, info=info)
+                except Exception as e: ok, why = False, f"frame check failed ({str(e)[:50]})"
+                r["clip_ok"], r["clip_why"], r["clip_worst"] = ok, why, info.get("worst", 2); save()
+            footage.unload_vet_model(cfg)
+    else:
+        for s in slots: st[s["key"]].setdefault("clip_why", "not animated (on demand: Add animation)")
+    save()
+    return st
+=== SOURCE_VISUALS.PY DEFS ===
+20: def _run_downloader(command, timeout=90):
+38: def _stream_range(url, start, duration, dest):
+69: def _download_range(url, start, duration, dest):
+93: def prompt(srcdir):
+112: def _request(sec, max_s=3.0):
+136: def _words(text):
+141: def auto_request(job, sec, min_overlap=3, secs=2.5):
+155: try: own = json.loads((Path(job) / "src" / "meta.json").read_text(encoding="utf-8")).get("own_footage")
+176: def _extract(job, req, dest, meta, log):
+211: try: start = start if own(job) else _best_framed(source, start, duration, dest, total, req, log)
+228: def _best_framed(local, start, duration, dest, total, req, log):
+258: def own(job):
+260: try: return bool(json.loads((Path(job) / "src" / "meta.json").read_text(encoding="utf-8")).get("own_footage"))
+264: def clip_secs(cfg):
+267: if cfg.get("_own_footage"): return max(2.0, min(3600.0, float(cfg.get("own_clip_secs", 3600) or 3600)))   # no limit: as long as the beat
+272: def max_uses(cfg, key="source_visual_max_uses", default=6):
+273: if cfg.get("_own_footage"): return 100000   # his own footage: every beat it matches (the caps are for other people's videos)
+278: def make(cfg, job, workspace, sec, log):
+282: if own(job) and not cfg.get("_own_footage"): cfg = dict(cfg, _own_footage=True)
+345: def apply_long(job, plan, cfg, log):
+380: def snapshot(cfg, job, workspace, sec, log, source_item=None):
+=== G045-read-rungs-and-short-slots exit 0 ===
