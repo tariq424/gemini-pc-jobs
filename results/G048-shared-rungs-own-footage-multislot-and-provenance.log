@@ -1,0 +1,17 @@
+﻿=== G048-shared-rungs-own-footage-multislot-and-provenance started 2026-11-26 20:48:48 on TARIQ_I9 ===
+At F:\code\gemini-helper\jobs-repo\jobs\G048-shared-rungs-own-footage-multislot-and-provenance\run.ps1:77 char:55
++ ... 2 = dict(beat); b2["id"] = f"{beat.get('id', 'b')}_s{len(out)+2}"\n',
++                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Unexpected token 'id', 'b')}_s{len(out)+2}"\n'' in expression or statement.
+At F:\code\gemini-helper\jobs-repo\jobs\G048-shared-rungs-own-footage-multislot-and-provenance\run.ps1:77 char:83
++ ... 2 = dict(beat); b2["id"] = f"{beat.get('id', 'b')}_s{len(out)+2}"\n',
++                                                                         ~
+Missing argument in parameter list.
+At F:\code\gemini-helper\jobs-repo\jobs\G048-shared-rungs-own-footage-multislot-and-provenance\run.ps1:105 char:130
++ ... ld, encoding="utf-8"); print("[OK] ladder.py imports shared rungs")',
++                                                                          ~
+Missing expression after ',' in pipeline element.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnexpectedToken
+ 
+=== G048-shared-rungs-own-footage-multislot-and-provenance exit 1 ===
