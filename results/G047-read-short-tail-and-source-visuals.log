@@ -1,0 +1,176 @@
+﻿=== G047-read-short-tail-and-source-visuals started 2026-11-26 20:36:51 on TARIQ_I9 ===
+=== SHORT 589-695 ===
+589:                clip, vtag, vrung = _safe(log, "AI video", lambda: mediaroutes.video_rung(cfg, sd, s, f"{s['id']}_flow", log, aspect="9:16")) or (None, None, None)
+590:                if clip:
+591:                    items.append({"type": "video", "src": _rel_sd(clip, sd), "secs": round(media.dur(clip), 2), "rate": 1.0, "freeze": True,
+592:                                  "tag": vtag, "rung": "flow" if vrung == "flow" else "meta video", "action": verb})
+593:                    moving = True
+594:        if v2 and len(items) < n and not moving and cfg.get("meta_chain_on", True):   # rung 3a: snapshot -> Copilot describes -> Meta image -> Meta animates it
+595:            from . import mediaroutes
+596:            snap = _safe(log, f"{s['id']} source screenshot", lambda: source_visuals.snapshot(cfg, job, sd, s, log, source_item=raw_source))
+597:            if snap and snap.get("path"):
+598:                ch = _safe(log, "describe -> Meta chain", lambda: mediaroutes.chain_rung(cfg, sd, s, f"{s['id']}_chain", log, snap["path"],
+599:                                                                                     aspect="9:16", ents=ents))
+600:                if ch and ch.get("video"):
+601:                    items.append({"type": "video", "src": _rel_sd(ch["video"], sd), "secs": round(media.dur(ch["video"]), 2), "rate": 1.0,
+602:                                  "freeze": True, "tag": "GENERATED Aú META", "rung": "meta chain"})
+603:                elif ch and ch.get("image"):   # the animation lost the sketch style: the drawn still
+604:                    items.append({"type": "image", "src": _rel_sd(ch["image"], sd), "tag": "GENERATED Aú META", "rung": "meta chain"})
+605:        if v2 and len(items) < n and not moving and cfg.get("imagegen_on", True):   # rung 3: free image generators (describe the source screenshot -> new image)
+606:            from . import imagegen
+607:            snap = snap or _safe(log, f"{s['id']} source screenshot", lambda: source_visuals.snapshot(cfg, job, sd, s, log, source_item=raw_source))
+608:            want = n - len(items)   # a beat that needs several visuals gets a second Gemini image (another angle / close-up), not Flow
+609:            imgs = _safe(log, "image generators", lambda: imagegen.generate_many(cfg, sd, s, s["id"], log, aspect="9:16",
+610:                                                                                image=(snap or {}).get("path"), count=want), []) or []
+611:            for k, (img, _p) in enumerate(imgs):   # rung 4: source parallax (rembg cut-out + Remotion 2.5D)
+612:                lay = _safe(log, f"{s['id']} parallax", lambda: depth.cutout_layers(img, sd / "imagegen" / f"{s['id']}_px{k or ''}", log))
+613:                if lay:
+614:                    items.append({"type": "layers", "layers": [_rel_sd(p_, sd) for p_ in lay], "tag": imagegen.tag(),
+615:                                  "rung": "imagegen", "site": imagegen.last_site(), "described": bool(snap), "variant": k})
+616:                else:
+617:                    items.append({"type": "image", "src": _rel_sd(img, sd), "tag": imagegen.tag(), "rung": "imagegen", "site": imagegen.last_site(), "variant": k})
+618:        if v2 and cfg.get("blender_on", True) and s.get("subject") and not items:   # rung 3b: Blender scene for a subject-locked beat (complete scenes only)
+619:            from . import mediaroutes
+620:            clip = _safe(log, "blender", lambda: mediaroutes.blender_rung(cfg, sd, s, f"{s['id']}_blender", log, aspect="9:16"))
+621:            if clip:
+622:                items.append({"type": "video", "src": _rel_sd(clip, sd), "secs": round(media.dur(clip), 2), "rate": 1.0, "freeze": True,
+623:                              "tag": "GENERATED Aú BLENDER", "rung": "blender"})
+624:        if v2 and (cfg.get("meta_video_on", True) or cfg.get("flow_on", True)) and not items:   # rung 5: Meta video (free) -> Flow (paid): only a beat nothing else could fill
+625:            from . import mediaroutes
+626:            clip, vtag, vrung = _safe(log, "AI video", lambda: mediaroutes.video_rung(cfg, sd, s, f"{s['id']}_flow", log, aspect="9:16")) or (None, None, None)
+627:            if clip:
+628:                items.append({"type": "video", "src": _rel_sd(clip, sd), "secs": round(media.dur(clip), 2), "rate": 1.0, "freeze": True,
+629:                              "tag": vtag, "rung": "flow" if vrung == "flow" else "meta video"})
+630:        bd = s.get("backdrop") or {"kind": "headline", "kicker": "", "text": s["vo"][:60], "sub": ""}
+633:        if bd.get("kind") == "map" and len(items) < n and not v2:
+634:            if map_useful(bd): items.append({"type": "graphic", "g": bd, "rung": "map"})
+635:            else: log(f"  {s['id']}: map skipped: its places are too close together to show on a map (they would sit on one dot)")
+636:        have = len(pick.get(s["id"], []))
+637:        why1 = f"only {have} coherent stock clip(s)" if have else "no coherent stock"
+638:        if s["id"] not in base_needs: why1 = ""   # stock covers this beat; the other treatments are made for the review menu
+639:        act = physics.action(s)[0] if v2 else ""   # v2: a beat describing an action is animated (physics / graphics / illustration), never a still
+640:        if s.get("subject") and act: why1 = f"action beat ({act}): a still photo can't show it"
+641:        elif s.get("subject") and len(items) < n and not source and not v2:   # (v2 has no real-photo rung) a beat with its source clip needs no photo search
+642:            inside = s["subject"].get("interior") or re.search(r"\b(cockpit|flight deck|pilots?|captain)\b", " ".join(s["queries"]), re.I)
+643:            bp = phases.get(s["id"], ""); pics = []
+644:            if inside: why1 = "inside the aircraft: no real photo of it"
+645:            elif bp == "air": why1 = "in the air: no real photo shows this moment"
+646:            else:
+647:                try: pics = photos.find(cfg, s["subject"], sd / "photos", log, want=10)
+648:                except Exception as e: log(f"  photo search failed ({str(e)[:100]})")
+649:                rej += photos.rejected(s["subject"], sd / "photos")
+650:                fit = [pc for pc in pics if coherence.phase_ok(bp, pc.get("phase"))]
+651:                rej += [{"id": pc["id"], "title": pc.get("title", "")[:80], "path": pc.get("path", ""),
+652:                         "why": f"shows the subject {pc.get('phase') or 'at another moment'}, the beat is {bp or 'another moment'}"} for pc in pics if pc not in fit]
+653:                why1 = ("no usable photo" if not pics else f"no photo shows it {bp or 'in this situation'}") if not fit else ""
+654:                pics = fit
+655:            used = {i.get("photo") for v in out.values() for i in v if i.get("photo")}
+656:            for pc in pics:
+657:                if len(items) >= n: break
+658:                if pc["id"] in used: continue
+659:                dst = fd / f"{pc['id']}.jpg"
+660:                if not dst.exists(): shutil.copy2(pc["path"], dst)
+661:                items.append({"type": "image", "src": str(dst.relative_to(sd)).replace("\\", "/"), "fit": "frame", "rung": "photo",
+662:                              "photo": pc["id"], "credit": photos.credit(pc), "short_credit": photos.short_credit(pc)}); used.add(pc["id"])
+663:            if len(items) < n and pics: why1 = "not enough matching photos"
+664:        pre[s["id"]] = items; step1[s["id"]] = ("photo" if s.get("subject") else "stock", why1); prej[s["id"]] = rej
+665:        rot = coherence.attitude_rotation(s["vo"], phases.get(s["id"])) if s.get("subject") else None
+668:        locked = illustrate.wangp_lock(s, ents, phases.get(s["id"]))
+669:        opts = illustrate.options(s, ents, phases.get(s["id"]))
+670:        wan_why = locked or ("an illustration fits" if opts and not v2 else "") or (f"action beat ({act}): animation first" if act else "")   # v2: illustrations are rung 9, WanGP draws atmospheric beats
+674:        if v2 and not wan_why and (items or pick.get(s["id"])):
+675:            wan_why = "an earlier rung already gave this beat a picture (WanGP is the last resort)"
+676:        for k in range(n - len(items)):
+677:            slots.append({"key": f"{s['id']}_{k}", "beat": s["id"], "vo": s["vo"], "still_prompt": s.get("still_prompt", ""),
+678:                          "motion": s.get("motion", ""), "subject": s.get("subject"), "rotate": rot,
+679:                          "person": cloudgen.has_person(s["vo"], ents), "wan": not wan_why, "wan_why": wan_why})
+681:    def finalize(s, st):
+682:        items = pre[s["id"]]; bd = s.get("backdrop") or {}
+683:        cap = bd.get("text", "") if bd.get("kind") == "headline" else bd.get("title", "")
+684:        rung1, why1 = step1[s["id"]]
+685:        lines, k5, kill, failed = [], 0, 0, ([rung1] if why1 else [])
+686:        for item in items:
+687:            if item.get("rung") == "source":
+688:                lines.append(f"source clip, full frame ({item['type']} at {float(item.get('timestamp') or 0):.2f}s of the source, {item.get('tag', '')})")
+689:            elif item.get("rung") == "imagegen":
+690:                lines.append(f"new image from {item.get('site')}" + (f" (variant {item['variant'] + 1})" if item.get("variant") else "")
+691:                             + (" (described from the source screenshot)" if item.get("described") else "")
+692:                             + (", rembg parallax" if item["type"] == "layers" else ""))
+693:            elif item.get("rung") == "flow":
+694:                lines.append("Google Flow clip")
+695:            elif item.get("rung") == "meta video":
+=== SOURCE_VISUALS 195-260 ===
+195:        if not any(abs(float(c["start"]) - start) < 0.01 for c in cues):
+196:            raise ValueError("timestamp is not in the verified source cues")
+197:        pad = WIDE if req["kind"] == "clip" else 0.0   # room to move a badly framed excerpt (owner, 2026-11-19)
+198:        w0 = max(0.0, start - pad)
+199:        source = _download_range(url, w0, duration + (start - w0) + pad, dest)
+200:        start = start - w0  # remote media is a bounded range around the cue
+201:    if req["kind"] == "screenshot":
+202:        media.ff("-ss", start, "-i", source, "-frames:v", 1, "-an", dest, timeout=120)
+203:        from PIL import Image
+204:        with Image.open(dest) as image:
+205:            image.verify()
+206:    else:
+207:        media.ff("-ss", start, "-i", source, "-t", duration, "-an", "-vf", "fps=30,scale=960:-2",
+208:                 "-c:v", "libx264", "-crf", 20, "-pix_fmt", "yuv420p", dest, timeout=120)
+209:        total = inspect_video(local)["duration"] if source == local else float(inspect_video(source).get("duration") or 0)
+210:        start0 = start
+211:        try: start = start if own(job) else _best_framed(source, start, duration, dest, total, req, log)
+212:        except ValueError:
+213:            if source != local: source.unlink(missing_ok=True)
+214:            raise
+215:        if start != start0: req["start"] = round(req["start"] + start - start0, 2)
+216:        info = inspect_video(dest)
+217:        if info["duration"] < 1.95 or info["duration"] > duration + 0.2:
+218:            raise ValueError(f"source excerpt came out {info['duration']:.1f}s, wanted {duration:.1f}s")
+219:    if source != local:
+220:        source.unlink(missing_ok=True)
+221:    log(f"  source evidence: {req['kind']} at {req['start']:.2f}s; {req['purpose'][:90]}")
+224:SHIFTS = (3.0, -3.0, 6.0, -6.0, 10.0, -10.0)
+225:WIDE = 10.0   # seconds downloaded either side of a remote excerpt, so it can move
+228:def _best_framed(local, start, duration, dest, total, req, log):
+229:    """owner, 2026-11-19: an excerpt with no whole face in most frames (a camera mid-move: hands and black, a body with the
+230:    face cut off) is moved to the nearest well-framed moment within 10 s. When none is framed but nearby footage does show
+231:    faces, the excerpt is refused (the ladder goes on). Footage with no faces anywhere (slides, a demo) is kept as it is.
+232:    -> the start used."""
+233:    from . import reframe
+234:    try: score = reframe.framing(dest)
+235:    except Exception: return start
+236:    if score >= reframe.FRAMED_OK: return start
+237:    best = (score, start); tmp = dest.with_name(dest.stem + "_try" + dest.suffix)
+238:    try:
+239:        for d in SHIFTS:
+240:            s2 = start + d
+241:            if s2 < 0 or s2 + min(duration, 2.0) > total: continue
+242:            media.ff("-ss", s2, "-i", local, "-t", min(duration, total - s2), "-an", "-vf", "fps=30,scale=960:-2",
+243:                     "-c:v", "libx264", "-crf", 20, "-pix_fmt", "yuv420p", tmp, timeout=120)
+244:            sc = reframe.framing(tmp)
+245:            if sc > best[0]:
+246:                best = (sc, s2); tmp.replace(dest)
+247:            if sc >= reframe.FRAMED_OK: break
+248:    finally:
+249:        tmp.unlink(missing_ok=True)
+250:    sc, s2 = best
+251:    if 0 < sc < reframe.FRAMED_MIN:   # faces nearby, none framed
+252:        raise ValueError(f"no well-framed moment near {start:.1f}s (best {sc:.0%} of frames show a whole face)")
+253:    if s2 != start:
+254:        log(f"  source excerpt moved {s2 - start:+.0f}s to a well-framed moment (whole face in {sc:.0%} of frames, was {score:.0%})")
+255:    return s2
+258:def own(job):
+259:    """The source is the owner's own footage (an uploaded video of his, or 'This is my own video'): no copyright caps."""
+260:    try: return bool(json.loads((Path(job) / "src" / "meta.json").read_text(encoding="utf-8")).get("own_footage"))
+=== CLOUDGEN 90-120 ===
+90:            with open(Path(job) / "cloud_log.jsonl", "a", encoding="utf-8") as f:
+91:                f.write(json.dumps({"t": time.strftime("%Y-%m-%d %H:%M:%S"), "tag": tag, "out": Path(out).name, **res}) + "\n")
+92:        except Exception: pass
+93:    return res
+96:def has_person(text, ents):
+97:    """True when the narration names a real person from the story's entity list (cloud is skipped for those beats)."""
+98:    low = " " + re.sub(r"[^a-z0-9 ]+", " ", (text or "").lower()) + " "
+99:    for e in ents or []:
+100:        if e.get("kind") != "person": continue
+101:        parts = [w for w in re.sub(r"[^a-z0-9 ]+", " ", str(e.get("name", "")).lower()).split() if len(w) > 2]
+102:        if parts and (f" {' '.join(parts)} " in low or f" {parts[-1]} " in low): return True
+103:    return False
+=== G047-read-short-tail-and-source-visuals exit 0 ===
