@@ -1,0 +1,9 @@
+﻿=== G050-wire-unreal-shared-rungs-and-mrq-smoke started 2026-11-26 21:36:44 on TARIQ_I9 ===
+At F:\code\gemini-helper\jobs-repo\jobs\G050-wire-unreal-shared-rungs-and-mrq-smoke\run.ps1:63 char:96
++ ... h, encoding="utf-8"); print("[OK] wired unreal rung into short.py")',
++                                                                          ~
+Missing expression after ','.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingExpressionAfterToken
+ 
+=== G050-wire-unreal-shared-rungs-and-mrq-smoke exit 1 ===
