@@ -1,0 +1,104 @@
+﻿=== G044-inspect-shared-rungs-and-own-footage-cap started 2026-11-26 19:26:28 on TARIQ_I9 ===
+=== RUNGS IN qc_repair.py ===
+28: def _log(log, m):
+33: def spans(mp4):
+48: def _clean_times(mp4):
+54: def narration(job_dir, mp4, a, b, vert):
+72: def _probe(mp4):
+81: def clip_ok(cfg, clip, work, label=""):
+99: def image_to_video(img, out, secs, W, H, log=None):
+144: def still_clip(img, out, secs, W, H):
+151: def _cfg_no_google(cfg):
+157: def research(cfg, text, log):
+183: # ------------------------------------------------------------------ rungs (each -> (clip, image_or_None) or raises / None)
+184: def _rung_stock(ctx):
+236: def join_clips(clips, need, W, H, out, fps=30):
+250: def _gen_image(ctx, text, key, cfg):
+256: def _img_rung(ctx, img, tag):
+265: def _rung_aiimage(ctx):
+272: def _rung_chatgpt(ctx):
+283: def _rung_marble(ctx):
+296: def _rung_ownframe(ctx):
+312: def _rung_static(ctx):
+320: def _rung_card(ctx):
+327: # ------------------------------------------------------------------ the shared ladder rungs (owner, 2026-11-12: "for the
+328: # interviews too, I want to keep the same rungs") - the steps explainers and Shorts use, callable for one span here
+329: def _sec(ctx): return {"id": ctx["key"], "vo": ctx["vo"], "subject": None}
+330: def _aspect(ctx): return "9:16" if ctx["vert"] else "16:9"
+331: def _space(ctx, name):
+335: def _checked(ctx, clip, label):
+340: def _rung_metachain(ctx):
+355: def _rung_blender(ctx):
+356: """Rung 3b: a complete Blender scene (Poly Haven assets, Cycles on the GPU)."""
+359: clip = mediaroutes.blender_rung(ctx["cfg"], _space(ctx, "blender"), _sec(ctx), f"{ctx['key']}_blender", ctx["log"], aspect=_aspect(ctx))
+360: return _checked(ctx, clip, "Blender scene") if clip else (None, None, "no complete Blender scene")
+363: def _rung_video(ctx):
+364: """Rung 5: Meta video (free), then Google Flow (paid, capped by flow_max_per_video)."""
+368: return _checked(ctx, clip, "Flow video" if rung == "flow" else "Meta video") if clip else (None, None, "no AI video (Meta, Flow)")
+371: def _prompt(ctx):
+373: from .flow import visual_prompt
+378: def _rung_cloud(ctx):
+389: def _rung_wangp(ctx):
+400: def _rung_physics(ctx):
+=== LADDER.PY ===
+1: """The visual ladder for Short beats that stock footage / real photos didn't cover (step 1 runs in short_stock / photos):
+3: 2b. WanGP still (from the beat's still_prompt) - only when 2a gave nothing usable -> coherence check
+4: 3. WanGP image-to-video of that still           -> coherence + garble check on 3 frames      => tag GENERATED
+8: GPU work is batched (all stills, then all checks, then all animations, then all checks) so WanGP and the Ollama vision
+29: def space(sd):
+38: def _yes(v): return str(v).strip().lower() in ("true", "yes", "1")
+40: def check(cfg, img, narration, subject=None, video=False, info=None):
+66: def nose_side(cfg, img):
+74: def _rel(p, sd): return str(Path(p).relative_to(sd)).replace("\\", "/")
+76: def run(cfg, wg, sd, fd, slots, log, stop, gpu, seed=5100, full=False, animate=False, pause=None):
+86: def save(): sf.write_text(json.dumps(st, indent=1), encoding="utf-8")
+88: def check_all():
+98: if s.get("rotate") and r.get("src") != "cloud": r["nose"] = nose_side(cfg, sd / r["still"])   # which way to turn it (WanGP, directional beats)
+121: for s in slots:   # a cloud still that fails its check goes to WanGP (its reason is kept for the chain)
+129: if not st[s["key"]].get("still_ok"): st[s["key"]].setdefault("still_why", "WanGP not available")
+131: # step 2b: WanGP stills (only where the cloud gave nothing usable)
+132: from . import wangp as _wg; is_down = getattr(_wg, "is_down", lambda: False); UNREACHABLE = getattr(_wg, "UNREACHABLE", "WanGP not reachable")   # tolerate an older wangp already loaded in a running server
+137: if s.get("wan") is False:   # illustrations come first; WanGP only for atmospheric filler (see illustrate.wangp_lock)
+138: r["still_why"] = f"WanGP skipped: {s.get('wan_why')}"; save(); continue
+142: why = "WanGP failed"
+144: why = "WanGP not reachable: skipped"
+151: why = "WanGP not reachable: skipped"; log("  WanGP is not reachable: skipping WanGP for the remaining slots")
+154: if r["still"] is not None: r["src"] = "wangp"
+175: if r["clip"] is None: r["clip_why"] = "WanGP image-to-video failed"
+=== OWN_FOOTAGE CAP IN short.py ===
+283: from . import source_visuals
+284: prompt += source_visuals.prompt(srcdir)
+390: slots, need = [], {}
+399: slots.append({"id": s["id"], "text": "calm, neutral background for the closing end card", "queries": ["night sky stars timelapse", "soft clouds sky timelapse", "abstract bokeh lights"], "cta": True})
+405: slots.append({"id": s["id"], "text": s["vo"], "queries": s["queries"], "subject": s.get("subject"), "avoid": s.get("avoid") or []})
+407: picked = footage.fill(cfg, slots, "portrait", need, d, log, stop, want_long_side=2560, max_secs=10.0, state_file=d / "footage.json", fallback=True)
+417: STILL_EXTRA = 4.0   # a still (push-in) may run this much longer than its slot
+498: if v2 and cfg.get("source_clips_auto", True) and cfg.get("source_visuals", True) and cfg.get("source_over_stock", True):
+502: from . import source_visuals
+506: mine = source_visuals.own(job)   # his own footage beats generic stock on even a weak match (owner, 2026-11-20)
+507: r = source_visuals.auto_request(job, x, min_overlap=2 if mine else int(cfg.get("source_over_stock_min", 4)))
+509: cap = len(cand) if source_visuals.own(job) else max(0, min(2, int(cfg.get("source_visual_max_uses", 2))))
+516: if full:   # Review every beat: every beat gets the whole menu, also the ones stock footage already covers (one slot)
+544: pre, step1, slots, prej = {}, {}, [], {}
+549: from . import source_visuals
+550: raw_source = _safe(log, f"{s['id']} source clip", lambda: source_visuals.make(cfg, job, sd, s, log))
+551: if raw_source and raw_source.get("type") == "video" and (cfg.get("skip_faceless_source", True) and not source_visuals.own(job)):
+553: # tall frame; the beat gets a picture from the next rung instead (or its stock back)
+557: log(f"  {s['id']}: source clip {fw}; a picture instead"); faceless[s["id"]] = fw; raw_source = None
+572: # pictures gets a style-locked storyboard (one picture every ~4 s, one look for the whole video)
+596: snap = _safe(log, f"{s['id']} source screenshot", lambda: source_visuals.snapshot(cfg, job, sd, s, log, source_item=raw_source))
+607: snap = snap or _safe(log, f"{s['id']} source screenshot", lambda: source_visuals.snapshot(cfg, job, sd, s, log, source_item=raw_source))
+631: # owner, 2026-11-12: the script's route map is a drawing - in the v2 ladder it waits until every picture rung failed
+672: # A beat that any earlier rung already gave a picture (stock, source clip, Meta, image services, Blender, Meta video,
+673: # Flow) never loads WanGP for its extra slots: they go on to physics / graphics / headline, or the picture holds.
+675: wan_why = "an earlier rung already gave this beat a picture (WanGP is the last resort)"
+677: slots.append({"key": f"{s['id']}_{k}", "beat": s["id"], "vo": s["vo"], "still_prompt": s.get("still_prompt", ""),
+705: for sl in [x for x in slots if x["beat"] == s["id"]]:
+711: nowan = sl.get("wan") is False and not cloud   # illustrations come before WanGP: WanGP never ran for this slot
+769: still = next((st[x["key"]]["still"] for x in slots if x["beat"] == s["id"] and st.get(x["key"], {}).get("still_ok")), None)
+784: "cloud": [{"slot": x["key"], "provider": st.get(x["key"], {}).get("cloud_provider"), "why": st.get(x["key"], {}).get("cloud_why", ""),
+785: "tries": st.get(x["key"], {}).get("cloud_tries", [])} for x in slots if x["beat"] == s["id"] and "cloud" in st.get(x["key"], {})]}
+801: first = len(slots); prepare(s); sl = slots[first:]
+812: run_slots = slots
+813: gpu = bool(run_slots) and bool(_safe(log, "WanGP check", wg.alive, False))
+=== G044-inspect-shared-rungs-and-own-footage-cap exit 0 ===
