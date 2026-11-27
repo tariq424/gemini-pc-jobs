@@ -1,0 +1,33 @@
+﻿=== G049-shared-rungs-own-footage-multislot-v2 started 2026-11-26 21:21:59 on TARIQ_I9 ===
+[OK] wrote app/studio/rungs.py
+[OK] qc_repair.py imports SHARED_RUNG_NAMES
+[OK] wired _best_own_frame
+[OK] added _best_own_frame + make_many
+[OK] short.py multi-slot own_footage
+[OK] short.py unblocked blender rung
+[OK] short.py wired blender_templates rung
+[OK] short.py unblocked video rung
+[OK] ladder.py imports shared rungs
+PY_COMPILE=0
+  own_footage frame-score: nudged 167.0s -> 170.0s (score=0.42)
+  source evidence: clip at 170.04s; likeness. And then I said go to Google Flow. And look at what Google Flow drew
+  b_smoke_s2: source clip ready: 5a649df3eb6b3d3f.mp4 (2.5s at 170.0s of the source), shown full frame
+  source evidence: clip at 186.95s; So I said okay Google Flow, you didn't do a good job. Okay, so then I said okay,
+  b_smoke_s3: source clip ready: dca8ba621ebf916b.mp4 (2.5s at 186.9s of the source), shown full frame
+PROVENANCE_OWN_EXTRA_SLOTS: 2 [170.04, 186.95]
+PROVENANCE_EXIT=0
+[main 335ba8d] Share RUNGS registry, enable multi-slot own_footage with frame scoring, unblock Blender/Video rungs
+ 7 files changed, 209 insertions(+), 3 deletions(-)
+ create mode 100644 app/studio/rungs.py
+ create mode 100644 tools/patch_g049.py
+ create mode 100644 tools/test_g049.py
+HEAD=335ba8d
+git.exe : To https://github.com/tariq424/gvideo-studio.git
+At F:\code\gemini-helper\jobs-repo\jobs\G049-shared-rungs-own-footage-multislot-v2\run.ps1:147 char:5
++     & git -C $g push origin main 2>&1
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...ideo-studio.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   8266a59..335ba8d  main -> main
+=== G049-shared-rungs-own-footage-multislot-v2 exit 0 ===
